@@ -48,8 +48,8 @@ static void initBackground()
 {
 	//---------------------------------------------------------------------------------
 	C2D_SpriteFromSheet(&background.spr, backgroundSheet, 0);
-	C2D_SpriteSetCenter(&background.spr, 0.5f, 0.5f);
-	C2D_SpriteSetPos(&background.spr, 0.5f, 0.5f);
+	C2D_SpriteSetCenter(&background.spr, 0.0f, 0.0f);
+	C2D_SpriteSetPos(&background.spr, 0.0f, 0.0f);
 	C2D_SpriteSetRotation(&background.spr, C3D_Angle(0));
 	C2D_SpriteSetDepth(&background.spr, 0.1f);
 
@@ -105,7 +105,7 @@ static void initSprites() {
 	*/
 }
 
-/*
+
 static void movePlayer(u32 kHeld)
 {
 	Sprite *sprite = &sprites[3];
@@ -159,7 +159,7 @@ static void movePlayer(u32 kHeld)
 	
 
 }
-*/
+
 /*
 //---------------------------------------------------------------------------------
 static void moveSprites() {
@@ -294,20 +294,21 @@ int main(int argc, char* argv[]) {
 	while (aptMainLoop())
 	{
 		hidScanInput();
-		/*
+		
 		//hidKeysDown returns information about which buttons have been just pressed (and they weren't in the previous frame)
 		u32 kDown = hidKeysDown();
 		//hidKeysHeld returns information about which buttons have are held down in this frame
 		u32 kHeld = hidKeysHeld();
 		//hidKeysUp returns information about which buttons have been just released
-		u32 kUp = hidKeysUp();
+		//u32 kUp = hidKeysUp();
+		
 
 		if (kDown & KEY_START) break;
 
-		//movePlayer(kHeld);
+		movePlayer(kHeld);
 
 		//moveSprites();
-		*/
+		
 		
 		//Timer countdown
 		if(timer > 0) timer--;
