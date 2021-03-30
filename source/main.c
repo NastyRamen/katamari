@@ -65,14 +65,20 @@ static void initSprites() {
 	for (size_t i = 0; i < MAX_SPRITES; i++)
 	{
 		Sprite *sprite = &sprites[i];
+		if(i!=3){
 		C2D_SpriteFromSheet(&sprite->spr,  spriteSheet, i);
 		C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 		C2D_SpriteSetPos(&sprite->spr, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
 		C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
 		// se encarga de ponerlos encima del background
 		C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+		}else if (i==3){
+			C2D_SpriteFromSheet(&sprite->spr, spriteSheet, i);
+			C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+			C2D_SpriteSetPos(&sprite->spr, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
+			C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+		}
 		
-		//sprite->enemyHp = INIT_ENEMY_HP;
 	}
 	/*
 	for (size_t i = 0; i < MAX_SPRITES; i++)
@@ -105,7 +111,7 @@ static void initSprites() {
 	*/
 }
 
-/*
+
 static void movePlayer(u32 kHeld)
 {
 	Sprite *sprite = &sprites[3];
@@ -116,6 +122,7 @@ static void movePlayer(u32 kHeld)
 	C2D_SpriteFromSheet(&sprite->spr, spriteSheet, 3);
 	C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 	C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
+	C2D_SpriteSetDepth(&sprite->spr, 0.3f);
 	
 	//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
 	sprite->dy = sprite->dy- 1;
@@ -128,6 +135,7 @@ static void movePlayer(u32 kHeld)
 	C2D_SpriteFromSheet(&sprite->spr, spriteSheet, 3);
 	C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 	C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
+	C2D_SpriteSetDepth(&sprite->spr, 0.3f);
 	
 	//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
 	sprite->dy = sprite->dy + 1;
@@ -141,6 +149,7 @@ static void movePlayer(u32 kHeld)
 	C2D_SpriteFromSheet(&sprite->spr, spriteSheet, 3);
 	C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 	C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
+	C2D_SpriteSetDepth(&sprite->spr, 0.3f);
 	
 	//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
 	sprite->dx = sprite->dx + 1;
@@ -152,6 +161,7 @@ static void movePlayer(u32 kHeld)
 	C2D_SpriteFromSheet(&sprite->spr, spriteSheet, 3);
 	C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 	C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
+	C2D_SpriteSetDepth(&sprite->spr, 0.3f);
 	
 	//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
 	sprite->dx = sprite->dx - 1;
@@ -159,7 +169,7 @@ static void movePlayer(u32 kHeld)
 	
 
 }
-*/
+
 /*
 //---------------------------------------------------------------------------------
 static void moveSprites() {
@@ -187,8 +197,8 @@ static void moveSprites() {
 		}
 	}
 }
-*/
-/*
+
+
 static void sceneInit(void)
 {
 	// Create two text buffers: one for static text, and another one for
@@ -199,7 +209,7 @@ static void sceneInit(void)
 	// Optimize the static text strings
 	C2D_TextOptimize(&g_staticText[1]);
 }
-/*
+
 static void sceneRender(float size)
 {
 	C2D_TextBufClear(g_dynamicBuf);
@@ -294,20 +304,19 @@ int main(int argc, char* argv[]) {
 	while (aptMainLoop())
 	{
 		hidScanInput();
-		/*
+		
 		//hidKeysDown returns information about which buttons have been just pressed (and they weren't in the previous frame)
 		u32 kDown = hidKeysDown();
 		//hidKeysHeld returns information about which buttons have are held down in this frame
 		u32 kHeld = hidKeysHeld();
 		//hidKeysUp returns information about which buttons have been just released
-		u32 kUp = hidKeysUp();
+		//u32 kUp = hidKeysUp();
 
 		if (kDown & KEY_START) break;
 
-		//movePlayer(kHeld);
+		movePlayer(kHeld);
 
 		//moveSprites();
-		*/
 		
 		//Timer countdown
 		if(timer > 0) timer--;
