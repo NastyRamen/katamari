@@ -14,6 +14,7 @@
 #define SCREEN_HEIGHT 240
 #define CHARACTER_SPEED 2
 
+
 // Simple sprite struct
 typedef struct
 {
@@ -21,14 +22,42 @@ typedef struct
 	float dx, dy; // velocity
 } Sprite;
 
-static C2D_SpriteSheet spriteSheet;
+typedef struct
+{
+	C2D_Sprite spr;
+	float dx, dy; // velocity
+} Background;
+
+
+static C2D_SpriteSheet spriteSheet,backgroundSheet;
 static Sprite sprites[MAX_SPRITES];
 static size_t numSprites = MAX_SPRITES/2;
-Sprite *sprite = &sprites[MAX_SPRITES];
+static Background background;
 
+/*
 //  Text buffer --- ????????????
 C2D_TextBuf g_staticBuf, g_dynamicBuf;
 C2D_Text g_staticText[4];
+<<<<<<< Updated upstream
+=======
+*/
+
+Sprite *sprite = &sprites[MAX_SPRITES];
+
+
+
+static void initBackground()
+{
+	//---------------------------------------------------------------------------------
+	C2D_SpriteFromSheet(&background.spr, backgroundSheet, 0);
+	C2D_SpriteSetCenter(&background.spr, 0.5f, 0.5f);
+	C2D_SpriteSetPos(&background.spr, 0.5f, 0.5f);
+	C2D_SpriteSetRotation(&background.spr, C3D_Angle(0));
+	C2D_SpriteSetDepth(&background.spr, 0.1f);
+
+}
+
+>>>>>>> Stashed changes
 
 //---------------------------------------------------------------------------------
 static void initSprites() {
@@ -38,17 +67,32 @@ static void initSprites() {
 
 	for (size_t i = 0; i < MAX_SPRITES; i++)
 	{
+		Sprite *sprite = &sprites[i];
+		C2D_SpriteFromSheet(&sprite->spr,  spriteSheet, i);
+		C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+		C2D_SpriteSetPos(&sprite->spr, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
+		C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+		// se encarga de ponerlos encima del background
+		C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+		
+		//sprite->enemyHp = INIT_ENEMY_HP;
+	}
+	/*
+	for (size_t i = 0; i < MAX_SPRITES; i++)
+	{
 		//puntero a la estructura Sprite
 		Sprite *sprite = &sprites[i];	
-		if (i != 3 )
-		{ // Random image, position, rotation and speed
+		
+		//if (i != 3 )
+		//{ // Random image, position, rotation and speed
 			C2D_SpriteFromSheet(&sprite->spr, spriteSheet, i);
 			C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 			C2D_SpriteSetPos(&sprite->spr, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
 			C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
 			sprite->dx = rand() * 4.0f / RAND_MAX - 2.0f;
 			sprite->dy = rand() * 4.0f / RAND_MAX - 2.0f;
-		}
+		//}
+		
 		if (i == 3){
 			C2D_SpriteFromSheet(&sprite->spr, spriteSheet, i);
 			C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
@@ -59,9 +103,15 @@ static void initSprites() {
 
 		}
 		
+		
 	}
+	*/
 }
 
+<<<<<<< Updated upstream
+=======
+/*
+>>>>>>> Stashed changes
 static void movePlayer(u32 kHeld)
 {
 	Sprite *sprite = &sprites[3];
@@ -115,7 +165,8 @@ static void movePlayer(u32 kHeld)
 	
 
 }
-
+*/
+/*
 //---------------------------------------------------------------------------------
 static void moveSprites() {
 //---------------------------------------------------------------------------------
@@ -142,7 +193,12 @@ static void moveSprites() {
 		}
 	}
 }
+<<<<<<< Updated upstream
 
+=======
+*/
+/*
+>>>>>>> Stashed changes
 static void sceneInit(void)
 {
 	// Create two text buffers: one for static text, and another one for
@@ -153,7 +209,8 @@ static void sceneInit(void)
 	// Optimize the static text strings
 	C2D_TextOptimize(&g_staticText[1]);
 }
-
+*/
+/*
 static void sceneRender(float size)
 {
 	C2D_TextBufClear(g_dynamicBuf);
@@ -191,7 +248,11 @@ static void sceneRender(float size)
 
 C2D_TextBuf g_staticBuf;
 C2D_Text g_staticText[4];
+<<<<<<< Updated upstream
 
+=======
+*/
+>>>>>>> Stashed changes
 //---------------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
 //---------------------------------------------------------------------------------
@@ -206,13 +267,24 @@ int main(int argc, char* argv[]) {
 	// Create screens
 	C3D_RenderTarget* top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
 
+	//Load background 
+	backgroundSheet = C2D_SpriteSheetLoad("romfs:/gfx/background.t3x");
+	if (!backgroundSheet)
+		svcBreak(USERBREAK_PANIC);
+
 	// Load graphics
 	spriteSheet = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
-	if (!spriteSheet) svcBreak(USERBREAK_PANIC);
+		if (!spriteSheet) svcBreak(USERBREAK_PANIC);
+
+		
+
+	// Initialize background
+	initBackground();
 
 	// Initialize sprites
 	initSprites();
 
+<<<<<<< Updated upstream
 	C3D_RenderTarget *bot = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
 
 	sceneInit();
@@ -221,11 +293,34 @@ int main(int argc, char* argv[]) {
 	//Timer in seconds
 	double timer = 300;
 
+=======
+	//C3D_RenderTarget *bot = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
+
+	//sceneInit();
+	//float size = 0.5f;
+
+	//Timer in seconds
+	double timer = 100000;
+	//TO DO - Variable for current size of Katamari
+	int currentSize = 1;
+	//TO DO - Variable for objective size of Katamari (random number between 3 and 10)
+	int objectiveSize = 0;
+	//TO DO - Variable for number of objects picked up
+	int objectsCounter = 0;
+
+	printf("\x1b[16;15H\x1b[47;30mKATAMARI 3DS\x1b[0m");	
+	printf("\x1b[18;0H\x1b[47;30mMake the Katamari as big as possible within the time limit\x1b[0m");
+	//"Menu" options on top left corner
+	printf("\x1b[1;0HHold START to exit.");
+	printf("\x1b[3;0HMove character with DPAD");
+	printf("\x1b[7;0HKatamari size objective: %d", objectiveSize);
+
+>>>>>>> Stashed changes
 	// Main loop
 	while (aptMainLoop())
 	{
 		hidScanInput();
-
+		/*
 		//hidKeysDown returns information about which buttons have been just pressed (and they weren't in the previous frame)
 		u32 kDown = hidKeysDown();
 		//hidKeysHeld returns information about which buttons have are held down in this frame
@@ -235,10 +330,18 @@ int main(int argc, char* argv[]) {
 
 		if (kDown & KEY_START) break;
 
+<<<<<<< Updated upstream
 		movePlayer(kHeld);
 
 		moveSprites();
 
+=======
+		//movePlayer(kHeld);
+
+		//moveSprites();
+		*/
+		
+>>>>>>> Stashed changes
 		//Timer countdown
 		if(timer > 0) timer--;
 
@@ -247,18 +350,35 @@ int main(int argc, char* argv[]) {
 		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 		C2D_TargetClear(top, C2D_Color32f(0.0f, 0.0f, 0.0f, 1.0f));
 		C2D_SceneBegin(top);
+		
 		for (size_t i = 0; i < numSprites; i ++)
 			C2D_DrawSprite(&sprites[i].spr);
+
+		C2D_DrawSprite(&background.spr);
 		C3D_FrameEnd(0);
+<<<<<<< Updated upstream
+=======
+		/*
+>>>>>>> Stashed changes
 		//bot
 		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 		C2D_TargetClear(bot, C2D_Color32(0x68, 0xB0, 0xD8, 0xFF));
 		C2D_SceneBegin(bot);
 		sceneRender(size);
+<<<<<<< Updated upstream
+=======
+		*/
+		//Print timer
+		printf("\x1b[5;0HTimer countdown: %f", timer);
+		printf("\x1b[9;0HKatamari current size: %d", currentSize);
+		printf("\x1b[11;0HNumber of objects picked up: %d", objectsCounter);
+		
+>>>>>>> Stashed changes
 	}
 
 	// Delete graphics
 	C2D_SpriteSheetFree(spriteSheet);
+	
 
 	// Deinit libs
 	C2D_Fini();
