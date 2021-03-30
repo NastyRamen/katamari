@@ -48,8 +48,8 @@ static void initBackground()
 {
 	//---------------------------------------------------------------------------------
 	C2D_SpriteFromSheet(&background.spr, backgroundSheet, 0);
-	C2D_SpriteSetCenter(&background.spr, 0.5f, 0.5f);
-	C2D_SpriteSetPos(&background.spr, 0.5f, 0.5f);
+	C2D_SpriteSetCenter(&background.spr, 0.0f, 0.0f);
+	C2D_SpriteSetPos(&background.spr, 0.0f, 0.0f);
 	C2D_SpriteSetRotation(&background.spr, C3D_Angle(0));
 	C2D_SpriteSetDepth(&background.spr, 0.1f);
 
