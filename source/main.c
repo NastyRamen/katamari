@@ -70,13 +70,16 @@ static void initSprites() {
 		C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 		C2D_SpriteSetPos(&sprite->spr, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
 		C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
-		// se encarga de ponerlos encima del background
+		// Set sprites above background
 		C2D_SpriteSetDepth(&sprite->spr, 0.3f);
 		}else if (i==3){
 			C2D_SpriteFromSheet(&sprite->spr, spriteSheet, i);
 			C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
-			C2D_SpriteSetPos(&sprite->spr, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
+			C2D_SpriteSetPos(&sprite->spr, 200.0f, 110.0f);
+			// Set sprite above background
 			C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+			sprite->dx = 200.0f;
+			sprite->dy = 110.0f;
 		}
 		
 	}
