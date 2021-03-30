@@ -40,7 +40,10 @@ C2D_TextBuf g_staticBuf, g_dynamicBuf;
 C2D_Text g_staticText[4];
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 */
@@ -61,6 +64,9 @@ static void initBackground()
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -116,6 +122,10 @@ static void initSprites() {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+/*
+>>>>>>> Stashed changes
 =======
 /*
 >>>>>>> Stashed changes
@@ -205,8 +215,11 @@ static void moveSprites() {
 }
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 */
@@ -263,7 +276,11 @@ C2D_TextBuf g_staticBuf;
 C2D_Text g_staticText[4];
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+*/
+>>>>>>> Stashed changes
 =======
 */
 >>>>>>> Stashed changes
@@ -333,6 +350,9 @@ int main(int argc, char* argv[]) {
 	printf("\x1b[7;0HKatamari size objective: %d", objectiveSize);
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -352,10 +372,18 @@ int main(int argc, char* argv[]) {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 		movePlayer(kHeld);
 
 		moveSprites();
 
+=======
+		//movePlayer(kHeld);
+
+		//moveSprites();
+		*/
+		
+>>>>>>> Stashed changes
 =======
 		//movePlayer(kHeld);
 
@@ -386,6 +414,10 @@ int main(int argc, char* argv[]) {
 		C3D_FrameEnd(0);
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+		/*
+>>>>>>> Stashed changes
 =======
 		/*
 >>>>>>> Stashed changes
@@ -406,6 +438,9 @@ int main(int argc, char* argv[]) {
 		printf("\x1b[11;0HNumber of objects picked up: %d", objectsCounter);
 		
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
