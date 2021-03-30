@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX_SPRITES   768
+#define MAX_SPRITES   4
 #define SCREEN_WIDTH  400
 #define SCREEN_HEIGHT 240
 #define CHARACTER_SPEED 2
@@ -27,13 +27,13 @@ static size_t numSprites = MAX_SPRITES/2;
 Sprite *sprite = &sprites[MAX_SPRITES];
 
 //  Text buffer --- ????????????
-C2D_TextBuf g_staticBuf, g_dynamicBuf;
-C2D_Text g_staticText[4];
+//C2D_TextBuf g_staticBuf, g_dynamicBuf;
+//C2D_Text g_staticText[4];
 
 //---------------------------------------------------------------------------------
 static void initSprites() {
 //---------------------------------------------------------------------------------
-	size_t numImages = C2D_SpriteSheetCount(spriteSheet);
+	//size_t numImages = C2D_SpriteSheetCount(spriteSheet);
 	srand(time(NULL));
 
 	for (size_t i = 0; i < MAX_SPRITES; i++)
@@ -62,8 +62,9 @@ static void initSprites() {
 	}
 }
 
-static void movePlayer(u32 kHeld)
-{
+//---------------------------------------------------------------------------------
+static void movePlayer(u32 kHeld) {
+//---------------------------------------------------------------------------------
 	Sprite *sprite = &sprites[3];
 
 
@@ -143,6 +144,7 @@ static void moveSprites() {
 	}
 }
 
+/*
 static void sceneInit(void)
 {
 	// Create two text buffers: one for static text, and another one for
@@ -191,17 +193,18 @@ static void sceneRender(float size)
 
 C2D_TextBuf g_staticBuf;
 C2D_Text g_staticText[4];
+*/
 
 //---------------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
 //---------------------------------------------------------------------------------
-	// Init libs
+	// Initialize libraries
 	romfsInit();
 	gfxInitDefault();
 	C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
 	C2D_Init(C2D_DEFAULT_MAX_OBJECTS);
 	C2D_Prepare();
-	//consoleInit(GFX_BOTTOM, NULL);
+	consoleInit(GFX_BOTTOM, NULL);
 
 	// Create screens
 	C3D_RenderTarget* top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
@@ -213,13 +216,29 @@ int main(int argc, char* argv[]) {
 	// Initialize sprites
 	initSprites();
 
-	C3D_RenderTarget *bot = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
+	//C3D_RenderTarget *bot = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
+	//sceneInit();
+	//float size = 0.5f;
 
-	sceneInit();
-	float size = 0.5f;
+	//Timer in seconds - timer left to make the Katamari
+	double timer = 100000;
 
-	//Timer in seconds
-	double timer = 300;
+	//TO DO - Variable for current size of Katamari
+	int currentSize = 1;
+	//TO DO - Variable for objective size of Katamari (random number between 3 and 10)
+	int objectiveSize = 0;
+	//TO DO - Variable for number of objects picked up
+	int objectsCounter = 0;
+
+	// Bottom screen - console
+	//Centered text describing game
+	printf("\x1b[16;15H\x1b[47;30mKATAMARI 3DS\x1b[0m");	
+	printf("\x1b[18;0H\x1b[47;30mMake the Katamari as big as possible within the time limit\x1b[0m");
+	//"Menu" options on top left corner
+	printf("\x1b[1;0HHold START to exit.");
+	printf("\x1b[3;0HMove character with DPAD");
+	printf("\x1b[7;0HKatamari size objective: %d", objectiveSize);
+
 
 	// Main loop
 	while (aptMainLoop())
@@ -231,30 +250,42 @@ int main(int argc, char* argv[]) {
 		//hidKeysHeld returns information about which buttons have are held down in this frame
 		u32 kHeld = hidKeysHeld();
 		//hidKeysUp returns information about which buttons have been just released
-		u32 kUp = hidKeysUp();
+		//u32 kUp = hidKeysUp();
 
+		// Hold the key START to exit game
 		if (kDown & KEY_START) break;
 
+		// Call to move the player
 		movePlayer(kHeld);
 
+		// Call to generate the sprites
 		moveSprites();
 
-		//Timer countdown
+		//Timer countdown - timer left to make the Katamari
+		if(timer > 0) timer--;
+
+		//Timer countdown - timer left to make the Katamari
 		if(timer > 0) timer--;
 
 		// Render the scene
-		//top
+		// Top screen - game screen
 		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 		C2D_TargetClear(top, C2D_Color32f(0.0f, 0.0f, 0.0f, 1.0f));
 		C2D_SceneBegin(top);
 		for (size_t i = 0; i < numSprites; i ++)
 			C2D_DrawSprite(&sprites[i].spr);
 		C3D_FrameEnd(0);
-		//bot
+		// Bottom screen - fancy console
+		/*
 		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 		C2D_TargetClear(bot, C2D_Color32(0x68, 0xB0, 0xD8, 0xFF));
 		C2D_SceneBegin(bot);
 		sceneRender(size);
+		*/
+		//Print timer
+		printf("\x1b[5;0HTimer countdown: %f", timer);
+		printf("\x1b[9;0HKatamari current size: %d", currentSize);
+		printf("\x1b[11;0HNumber of objects picked up: %d", objectsCounter);
 	}
 
 	// Delete graphics
