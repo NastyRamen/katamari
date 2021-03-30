@@ -1,5 +1,5 @@
 main.o: \
- C\:/Users/Silver/Desktop/AEV/Practicas/devkitPro-examples/3ds/desarrollo_3DS/katamari/source/main.c \
+ C\:/Users/Silver/Desktop/AEV/Practicas/GitHub/Katamari/Katamari/source/main.c \
  C\:/devkitPro/libctru/include/citro2d.h \
  C\:/devkitPro/libctru/include/citro3d.h \
  C\:/devkitPro/libctru/include/c3d/types.h \
