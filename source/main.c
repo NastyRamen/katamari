@@ -38,14 +38,6 @@ static Background background;
 //  Text buffer --- ????????????
 C2D_TextBuf g_staticBuf, g_dynamicBuf;
 C2D_Text g_staticText[4];
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 */
 
 Sprite *sprite = &sprites[MAX_SPRITES];
@@ -63,18 +55,11 @@ static void initBackground()
 
 }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
 //---------------------------------------------------------------------------------
 static void initSprites() {
 //---------------------------------------------------------------------------------
-	size_t numImages = C2D_SpriteSheetCount(spriteSheet);
+	//size_t numImages = C2D_SpriteSheetCount(spriteSheet);
 	srand(time(NULL));
 
 	for (size_t i = 0; i < MAX_SPRITES; i++)
@@ -120,18 +105,7 @@ static void initSprites() {
 	*/
 }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
 /*
->>>>>>> Stashed changes
-=======
-/*
->>>>>>> Stashed changes
-=======
-/*
->>>>>>> Stashed changes
 static void movePlayer(u32 kHeld)
 {
 	Sprite *sprite = &sprites[3];
@@ -213,18 +187,8 @@ static void moveSprites() {
 		}
 	}
 }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 */
 /*
->>>>>>> Stashed changes
 static void sceneInit(void)
 {
 	// Create two text buffers: one for static text, and another one for
@@ -235,7 +199,6 @@ static void sceneInit(void)
 	// Optimize the static text strings
 	C2D_TextOptimize(&g_staticText[1]);
 }
-*/
 /*
 static void sceneRender(float size)
 {
@@ -274,19 +237,7 @@ static void sceneRender(float size)
 
 C2D_TextBuf g_staticBuf;
 C2D_Text g_staticText[4];
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-=======
 */
->>>>>>> Stashed changes
-=======
-*/
->>>>>>> Stashed changes
-=======
-*/
->>>>>>> Stashed changes
 //---------------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
 //---------------------------------------------------------------------------------
@@ -296,7 +247,7 @@ int main(int argc, char* argv[]) {
 	C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
 	C2D_Init(C2D_DEFAULT_MAX_OBJECTS);
 	C2D_Prepare();
-	//consoleInit(GFX_BOTTOM, NULL);
+	consoleInit(GFX_BOTTOM, NULL);
 
 	// Create screens
 	C3D_RenderTarget* top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
@@ -318,16 +269,6 @@ int main(int argc, char* argv[]) {
 	// Initialize sprites
 	initSprites();
 
-<<<<<<< Updated upstream
-	C3D_RenderTarget *bot = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
-
-	sceneInit();
-	float size = 0.5f;
-
-	//Timer in seconds
-	double timer = 300;
-
-=======
 	//C3D_RenderTarget *bot = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
 
 	//sceneInit();
@@ -349,13 +290,6 @@ int main(int argc, char* argv[]) {
 	printf("\x1b[3;0HMove character with DPAD");
 	printf("\x1b[7;0HKatamari size objective: %d", objectiveSize);
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 	// Main loop
 	while (aptMainLoop())
 	{
@@ -370,34 +304,11 @@ int main(int argc, char* argv[]) {
 
 		if (kDown & KEY_START) break;
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-		movePlayer(kHeld);
-
-		moveSprites();
-
-=======
 		//movePlayer(kHeld);
 
 		//moveSprites();
 		*/
 		
->>>>>>> Stashed changes
-=======
-		//movePlayer(kHeld);
-
-		//moveSprites();
-		*/
-		
->>>>>>> Stashed changes
-=======
-		//movePlayer(kHeld);
-
-		//moveSprites();
-		*/
-		
->>>>>>> Stashed changes
 		//Timer countdown
 		if(timer > 0) timer--;
 
@@ -412,38 +323,18 @@ int main(int argc, char* argv[]) {
 
 		C2D_DrawSprite(&background.spr);
 		C3D_FrameEnd(0);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
 		/*
->>>>>>> Stashed changes
-=======
-		/*
->>>>>>> Stashed changes
-=======
-		/*
->>>>>>> Stashed changes
 		//bot
 		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 		C2D_TargetClear(bot, C2D_Color32(0x68, 0xB0, 0xD8, 0xFF));
 		C2D_SceneBegin(bot);
 		sceneRender(size);
-<<<<<<< Updated upstream
-=======
 		*/
 		//Print timer
 		printf("\x1b[5;0HTimer countdown: %f", timer);
 		printf("\x1b[9;0HKatamari current size: %d", currentSize);
 		printf("\x1b[11;0HNumber of objects picked up: %d", objectsCounter);
 		
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 	}
 
 	// Delete graphics
