@@ -1,6 +1,14 @@
-// Simple citro2d sprite drawing example
-// Images borrowed from:
-//   https://kenney.nl/assets/space-shooter-redux
+/*************************************
+
+Proyecto AEV: Katamari 3DS
+
+Alumnos: 	Nieves Codoñer Gil
+			Antoni Garcés Gallardo
+			Cristina Padró Ferragut
+
+Curso 2020-2021
+
+*************************************/
 #include <citro2d.h>
 
 #include <assert.h>
@@ -13,6 +21,7 @@
 #define SCREEN_WIDTH  400
 #define SCREEN_HEIGHT 240
 #define CHARACTER_SPEED 2
+#define COLLISION_DISTANCE 5
 
 
 // Simple sprite struct
@@ -20,22 +29,34 @@ typedef struct
 {
 	C2D_Sprite spr;
 	float dx, dy; // velocity
+	bool visible;
 } Sprite;
 
+// Consider background as sprite(easier)
 typedef struct
 {
 	C2D_Sprite spr;
-	float dx, dy; // velocity
+	//float dx, dy; // velocity
 } Background;
 
+// Player status to switch animations
+enum statusPlayer
+{
+	IDLE = 0,
+	RIGHT = 1,
+	LEFT = 2,
+	UP = 3,
+	DOWN = 4
+};
 
+// Static variables such as sprites
 static C2D_SpriteSheet spriteSheet,backgroundSheet;
 static Sprite sprites[MAX_SPRITES];
 static size_t numSprites = MAX_SPRITES/2;
 static Background background;
 
 /*
-//  Text buffer --- ????????????
+//  Text buffer 
 C2D_TextBuf g_staticBuf, g_dynamicBuf;
 C2D_Text g_staticText[4];
 */
@@ -43,10 +64,9 @@ C2D_Text g_staticText[4];
 Sprite *sprite = &sprites[MAX_SPRITES];
 
 
-
-static void initBackground()
-{
-	//---------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------
+static void initBackground() {
+//---------------------------------------------------------------------------------
 	C2D_SpriteFromSheet(&background.spr, backgroundSheet, 0);
 	C2D_SpriteSetCenter(&background.spr, 0.0f, 0.0f);
 	C2D_SpriteSetPos(&background.spr, 0.0f, 0.0f);
@@ -54,7 +74,6 @@ static void initBackground()
 	C2D_SpriteSetDepth(&background.spr, 0.1f);
 
 }
-
 
 //---------------------------------------------------------------------------------
 static void initSprites() {
