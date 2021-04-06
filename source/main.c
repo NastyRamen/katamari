@@ -29,7 +29,7 @@ typedef struct
 {
 	C2D_Sprite spr;
 	float dx, dy; // velocity
-	bool visible;
+	//bool visible;
 } Sprite;
 
 // Consider background as sprite(easier)
@@ -85,13 +85,23 @@ static void initSprites() {
 	{
 		Sprite *sprite = &sprites[i];
 		if(i!=3){
-		C2D_SpriteFromSheet(&sprite->spr,  spriteSheet, i);
-		C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
-		C2D_SpriteSetPos(&sprite->spr, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
-		C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
-		// Set sprites above background
-		C2D_SpriteSetDepth(&sprite->spr, 0.3f);
-		}else if (i==3){
+			C2D_SpriteFromSheet(&sprite->spr,  spriteSheet, i);
+			C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+			C2D_SpriteSetPos(&sprite->spr, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
+			C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+			// Set sprites above background
+			C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+			// Check for collision with the screen boundaries
+			if (sprite->spr.params.pos.y < sprite->spr.params.pos.h / 2.0f && sprite->dy < (sprite->spr.params.pos.h))
+				sprite->dy = sprite->dy + 30;
+			if (sprite->spr.params.pos.y > (SCREEN_HEIGHT - (sprite->spr.params.pos.h / 2.0f)) && sprite->dy > 0.0f)
+				sprite->dy = sprite->dy - 30;
+			if (sprite->spr.params.pos.x > (SCREEN_WIDTH - (sprite->spr.params.pos.w / 2.0f)) && sprite->dx > 0.0f)
+				sprite->dx = sprite->dx - 30;
+			if (sprite->spr.params.pos.x < sprite->spr.params.pos.w / 2.0f && sprite->dx < (sprite->spr.params.pos.w))
+				sprite->dx = sprite->dx - 30;
+		}
+		else if (i==3){
 			C2D_SpriteFromSheet(&sprite->spr, spriteSheet, i);
 			C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 			C2D_SpriteSetPos(&sprite->spr, 200.0f, 110.0f);
@@ -133,60 +143,58 @@ static void initSprites() {
 	*/
 }
 
-
-static void movePlayer(u32 kHeld)
-{
+//---------------------------------------------------------------------------------
+static void movePlayer(u32 kHeld) {
+//---------------------------------------------------------------------------------
 	Sprite *sprite = &sprites[3];
 
-
-	if (kHeld & KEY_UP)
-	{
-	C2D_SpriteFromSheet(&sprite->spr, spriteSheet, 3);
-	C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
-	C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
-	C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+	if (kHeld & KEY_UP) {
+		// Check for collision with the screen boundaries
+		if (sprite->spr.params.pos.y < sprite->spr.params.pos.h / 2.0f && sprite->dy < (sprite->spr.params.pos.h))
+			sprite->dy = (sprite->spr.params.pos.h / 2);
+		C2D_SpriteFromSheet(&sprite->spr, spriteSheet, 3);
+		C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+		C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
+		C2D_SpriteSetDepth(&sprite->spr, 0.3f);
 	
-	//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
-	sprite->dy = sprite->dy- 1;
-	
-			
+		//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
+		sprite->dy = sprite->dy- 1;	
+	}
+	else if (kHeld & KEY_DOWN) {
+		// Check for collision with the screen boundaries
+		if (sprite->spr.params.pos.y > (SCREEN_HEIGHT - (sprite->spr.params.pos.h / 2.0f)) && sprite->dy > 0.0f)
+			sprite->dy = SCREEN_HEIGHT - (sprite->spr.params.pos.h / 2);
+		C2D_SpriteFromSheet(&sprite->spr, spriteSheet, 3);
+		C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+		C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
+		C2D_SpriteSetDepth(&sprite->spr, 0.3f);
 		
-	}else
-	if (kHeld & KEY_DOWN)
-	{
-	C2D_SpriteFromSheet(&sprite->spr, spriteSheet, 3);
-	C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
-	C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
-	C2D_SpriteSetDepth(&sprite->spr, 0.3f);
-	
-	//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
-	sprite->dy = sprite->dy + 1;
-
-	
+		//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
+		sprite->dy = sprite->dy + 1;
 	}
-	else if (kHeld & KEY_RIGHT)
-	{
-	
-	
-	C2D_SpriteFromSheet(&sprite->spr, spriteSheet, 3);
-	C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
-	C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
-	C2D_SpriteSetDepth(&sprite->spr, 0.3f);
-	
-	//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
-	sprite->dx = sprite->dx + 1;
+	else if (kHeld & KEY_RIGHT) {
+		// Check for collision with the screen boundaries
+		if (sprite->spr.params.pos.x > (SCREEN_WIDTH - (sprite->spr.params.pos.w / 2.0f)) && sprite->dx > 0.0f)
+			sprite->dx = SCREEN_WIDTH - (sprite->spr.params.pos.w / 2);
+		C2D_SpriteFromSheet(&sprite->spr, spriteSheet, 3);
+		C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+		C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
+		C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+		
+		//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
+		sprite->dx = sprite->dx + 1;
 	}
-	else if (kHeld & KEY_LEFT)
-	{
-	
-	
-	C2D_SpriteFromSheet(&sprite->spr, spriteSheet, 3);
-	C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
-	C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
-	C2D_SpriteSetDepth(&sprite->spr, 0.3f);
-	
-	//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
-	sprite->dx = sprite->dx - 1;
+	else if (kHeld & KEY_LEFT) {
+		// Check for collision with the screen boundaries
+		if (sprite->spr.params.pos.x < sprite->spr.params.pos.w / 2.0f && sprite->dx < (sprite->spr.params.pos.w))
+			sprite->dx = (sprite->spr.params.pos.w / 2);
+		C2D_SpriteFromSheet(&sprite->spr, spriteSheet, 3);
+		C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+		C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
+		C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+		
+		//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
+		sprite->dx = sprite->dx - 1;
 	}
 	
 
@@ -273,8 +281,9 @@ C2D_Text g_staticText[4];
 //---------------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
 //---------------------------------------------------------------------------------
-	// Init libs
-	romfsInit();
+	// Initialize filesystem to load sprites
+  	romfsInit();
+	// Initialize C2D and C3D libraries for screens
 	gfxInitDefault();
 	C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
 	C2D_Init(C2D_DEFAULT_MAX_OBJECTS);
@@ -292,8 +301,6 @@ int main(int argc, char* argv[]) {
 	// Load graphics
 	spriteSheet = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
 		if (!spriteSheet) svcBreak(USERBREAK_PANIC);
-
-		
 
 	// Initialize background
 	initBackground();
