@@ -1,0 +1,5 @@
+--atlas -f rgba8888 -z auto
+katamari-m.png
+katamari-r.png
+katamari-l.png
+katamari-t.png
