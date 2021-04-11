@@ -76,6 +76,9 @@ static Katamari katamaris[MAX_SPRITES];
 
 //- Variable for number of objects picked up
 static int objectsCounter = 0;
+static int  currentSize =  1;
+//TO DO - Variable for objective size of Katamari (random number between 3 and 10)
+static int objectiveSize = 5;
 
 //---------------------------------------------------------------------------------
 static void initBackground() {
@@ -134,7 +137,17 @@ static void initKatamari(){
 	C2D_SpriteSetDepth(&katamari->spr, 0.3f);
 	katamari->dx = 200.0f;
 	katamari->dy = 110.0f;
+	katamari->size = katamari->size + 1;
 
+}
+ void setKatamariSize(int cont)
+{
+	Katamari *katamari = &katamaris[0];
+		if (cont == 1){C2D_SpriteSetScale(&katamari->spr,1.0f,1.0f);}
+		if (cont == 2){C2D_SpriteSetScale(&katamari->spr,1.5f,1.5f);}
+		if (cont == 3){C2D_SpriteSetScale(&katamari->spr,2.0f,2.0f);}
+		if (cont == 4){C2D_SpriteSetScale(&katamari->spr,2.5f,2.5f);}
+		currentSize = cont;
 }
 
 //---------------------------------------------------------------------------------
@@ -150,6 +163,7 @@ static void movePlayer(u32 kHeld) {
 		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
 		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
 		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
+		setKatamariSize(katamari-> size);
 		//C2D_SpriteMove(&katamari->spr, katamari->dx, katamari->dy);
 		katamari->dy = katamari->dy- 1;	
 	}
@@ -161,6 +175,7 @@ static void movePlayer(u32 kHeld) {
 		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
 		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
 		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
+		setKatamariSize(katamari-> size);
 		//C2D_SpriteMove(&katamari->spr, katamari->dx, katamari->dy);
 		katamari->dy = katamari->dy + 1;
 	}
@@ -172,6 +187,7 @@ static void movePlayer(u32 kHeld) {
 		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
 		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
 		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
+		setKatamariSize(katamari-> size);
 		//C2D_SpriteMove(&katamari->spr, katamari->dx, katamari->dy);
 		katamari->dx = katamari->dx + 1;
 	}
@@ -183,6 +199,7 @@ static void movePlayer(u32 kHeld) {
 		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
 		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
 		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
+		setKatamariSize(katamari-> size);
 		//C2D_SpriteMove(&katamari->spr, katamari->dx, katamari->dy);
 		katamari->dx = katamari->dx - 1;
 	}
@@ -200,6 +217,7 @@ static void checkCollisions()
 					if ((abs(katamari->spr.params.pos.x - sprites[j].spr.params.pos.x) < COLLISION_DISTANCE) 
 					&& (abs(katamari->spr.params.pos.y - sprites[j].spr.params.pos.y) < COLLISION_DISTANCE))
 					{
+						katamari-> size = katamari->size + 1;
 						//object j  disappears
 						sprites[j].visible = false;
 						objectsCounter++;
@@ -208,6 +226,8 @@ static void checkCollisions()
 				}
 			}
 }
+
+
 
 /*
 //---------------------------------------------------------------------------------
@@ -247,11 +267,17 @@ static void drawScene()
 			C2D_DrawSprite(&sprites[i].spr);
 		}
 	}
-			
+
+	Katamari *katamari = &katamaris[0];
 	// Katamari
 	for (size_t i = 0; i < 1; i ++){
-		C2D_DrawSprite(&katamaris[i].spr);
-
+		if (katamari-> size  == 1){
+			C2D_DrawSprite(&katamaris[i].spr);
+		}else {
+			C2D_DrawSprite(&katamaris[i].spr);
+			setKatamariSize(katamari-> size);
+		}
+		
 	}
 
 	C2D_DrawSprite(&background.spr);
@@ -297,9 +323,8 @@ int main(int argc, char* argv[]) {
 	//Timer in seconds
 	double timer = 100000;
 	//TO DO - Variable for current size of Katamari
-	int currentSize = 1;
-	//TO DO - Variable for objective size of Katamari (random number between 3 and 10)
-	int objectiveSize = 0;
+	
+	
 	
 
 	printf("\x1b[16;15H\x1b[47;30mKATAMARI 3DS\x1b[0m");	
