@@ -50,8 +50,8 @@
 00100d70 t __do_global_dtors_aux
 00100db0 t frame_dummy
 00100ddc 0000014c T setKatamariSize
-00100f28 00000984 T main
-001018ac 00000034 t C2Di_FrameEndHook
+00100f28 00000980 T main
+001018a8 00000034 t C2Di_FrameEndHook
 001018e0 00000330 T C2D_Init
 00101c10 00000044 T C2D_Fini
 00101c54 000000d0 T C2D_Prepare

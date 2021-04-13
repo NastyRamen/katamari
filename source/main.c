@@ -259,7 +259,8 @@ static void moveSprites() {
 */
 
 static void drawScene()
-{
+{	
+	C2D_DrawSprite(&background.spr);
 	// sprites - objects
 	for (size_t i = 0; i < numSprites; i ++){
 		// objects picked up by the katamari => objects are not drawn
@@ -267,7 +268,6 @@ static void drawScene()
 			C2D_DrawSprite(&sprites[i].spr);
 		}
 	}
-
 	Katamari *katamari = &katamaris[0];
 	// Katamari
 	for (size_t i = 0; i < 1; i ++){
@@ -279,8 +279,6 @@ static void drawScene()
 		}
 		
 	}
-
-	C2D_DrawSprite(&background.spr);
 }
 
 
