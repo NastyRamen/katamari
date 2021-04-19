@@ -30,6 +30,7 @@ typedef struct
 	float dx, dy; // velocity
 	int posx, posy;
 	bool visible;
+	int size;
 } Sprite;
 
 // Consider background as sprite(easier)
@@ -62,7 +63,9 @@ typedef struct
 
 
 //SpriteSheets 
-static C2D_SpriteSheet spriteSheet,backgroundSheet,katamariSheet;
+static C2D_SpriteSheet backgroundSheet,katamariSheet,spriteSheet_all; //spriteSheet,
+
+//static C2D_SpriteSheet item_spritesheets[3];
 // Static variables such as sprites
 static Sprite sprites[MAX_SPRITES];
 static size_t numSprites = MAX_SPRITES/2;
@@ -100,16 +103,17 @@ static void initSprites() {
 	for (size_t i = 0; i < MAX_SPRITES; i++)
 	{
 		Sprite *sprite = &sprites[i];
-		if(i!=3){
-			C2D_SpriteFromSheet(&sprite->spr,  spriteSheet, i);
+		 if (i < 6) {
+			C2D_SpriteFromSheet(&sprite->spr, spriteSheet_all, i);
 			C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 			C2D_SpriteSetPos(&sprite->spr, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
 			C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
 			// Set sprites above background
 			C2D_SpriteSetDepth(&sprite->spr, 0.3f);
 			sprites[i].visible = true;
+			sprites[i].size = i/2;
 
-			
+
 			// Check for collision with the screen boundaries
 			if (sprite->spr.params.pos.y < sprite->spr.params.pos.h / 2.0f && sprite->dy < (sprite->spr.params.pos.h))
 				sprite->dy = sprite->dy + 30;
@@ -119,6 +123,11 @@ static void initSprites() {
 				sprite->dx = sprite->dx - 30;
 			if (sprite->spr.params.pos.x < sprite->spr.params.pos.w / 2.0f && sprite->dx < (sprite->spr.params.pos.w))
 				sprite->dx = sprite->dx - 30;
+
+			//Set Sprite Scale
+			if (sprites[i].size == 0) { C2D_SpriteSetScale(&sprites[i].spr, 0.5f, 0.5f); }
+			if (sprites[i].size == 1) { C2D_SpriteSetScale(&sprites[i].spr, 1.0f, 1.0f); }
+			if (sprites[i].size == 2) { C2D_SpriteSetScale(&sprites[i].spr, 1.5f, 1.5f); }
 		}
 		
 		
@@ -147,6 +156,7 @@ static void initKatamari(){
 		if (cont == 2){C2D_SpriteSetScale(&katamari->spr,1.5f,1.5f);}
 		if (cont == 3){C2D_SpriteSetScale(&katamari->spr,2.0f,2.0f);}
 		if (cont == 4){C2D_SpriteSetScale(&katamari->spr,2.5f,2.5f);}
+		if (cont == 5) { C2D_SpriteSetScale(&katamari->spr, 3.0f, 3.0f); }
 		currentSize = cont;
 }
 
@@ -217,10 +227,12 @@ static void checkCollisions()
 					if ((abs(katamari->spr.params.pos.x - sprites[j].spr.params.pos.x) < COLLISION_DISTANCE) 
 					&& (abs(katamari->spr.params.pos.y - sprites[j].spr.params.pos.y) < COLLISION_DISTANCE))
 					{
-						katamari-> size = katamari->size + 1;
+						if (katamari->size > sprites[j].size) {
+							katamari->size = katamari->size + 1;
 						//object j  disappears
-						sprites[j].visible = false;
-						objectsCounter++;
+							sprites[j].visible = false;
+							objectsCounter++;
+							}
 					
 					}
 				}
@@ -303,9 +315,12 @@ int main(int argc, char* argv[]) {
 		svcBreak(USERBREAK_PANIC);
 
 	// Load graphics
+	/*
 	spriteSheet = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
 		if (!spriteSheet) svcBreak(USERBREAK_PANIC);
-
+	*/
+	spriteSheet_all = C2D_SpriteSheetLoad("romfs:/gfx/sprites_all.t3x");
+		if (!spriteSheet_all) svcBreak(USERBREAK_PANIC);
 
 	katamariSheet = C2D_SpriteSheetLoad("romfs:/gfx/katamari.t3x");
 		if (!katamariSheet) svcBreak(USERBREAK_PANIC);
@@ -369,9 +384,11 @@ int main(int argc, char* argv[]) {
 	}
 
 	// Delete graphics
-	C2D_SpriteSheetFree(spriteSheet);
+	//C2D_SpriteSheetFree(spriteSheet);
+	C2D_SpriteSheetFree(spriteSheet_all);
 	C2D_SpriteSheetFree(katamariSheet);
 	C2D_SpriteSheetFree(backgroundSheet);
+
 
 	
 
