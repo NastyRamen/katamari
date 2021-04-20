@@ -20,7 +20,10 @@ Curso 2020-2021
 #define SCREEN_WIDTH  400
 #define SCREEN_HEIGHT 240
 #define CHARACTER_SPEED 2
-#define COLLISION_DISTANCE 15
+
+
+#define SCREEN_MAX_WIDTH_SPRITES  400
+#define SCREEN_MAX_HEIGHT_SPRITES 240
 
 
 // Simple sprite struct
@@ -70,6 +73,7 @@ static C2D_SpriteSheet backgroundSheet,katamariSheet,spriteSheet_all; //spriteSh
 static Sprite sprites[MAX_SPRITES];
 static size_t numSprites = MAX_SPRITES/2;
 Sprite *sprite = &sprites[MAX_SPRITES];
+static int COLLISION_DISTANCE  = 20;
 
 //background
 static Background background;
@@ -81,7 +85,7 @@ static Katamari katamaris[MAX_SPRITES];
 static int objectsCounter = 0;
 static int  currentSize =  1;
 //TO DO - Variable for objective size of Katamari (random number between 3 and 10)
-static int objectiveSize = 5;
+static int objectiveSize = 6;
 
 //---------------------------------------------------------------------------------
 static void initBackground() {
@@ -106,23 +110,36 @@ static void initSprites() {
 		 if (i < 6) {
 			C2D_SpriteFromSheet(&sprite->spr, spriteSheet_all, i);
 			C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
-			C2D_SpriteSetPos(&sprite->spr, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
+			C2D_SpriteSetPos(&sprite->spr, rand() % SCREEN_MAX_WIDTH_SPRITES, rand() % SCREEN_MAX_HEIGHT_SPRITES);
 			C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
 			// Set sprites above background
 			C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+			sprite->dx = rand() * 2.0f / RAND_MAX - 4.0f;
+			sprite->dy = rand() * 2.0f / RAND_MAX - 4.0f;
+
 			sprites[i].visible = true;
 			sprites[i].size = i/2;
 
-
 			// Check for collision with the screen boundaries
+			/*
 			if (sprite->spr.params.pos.y < sprite->spr.params.pos.h / 2.0f && sprite->dy < (sprite->spr.params.pos.h))
 				sprite->dy = sprite->dy + 30;
-			if (sprite->spr.params.pos.y > (SCREEN_HEIGHT - (sprite->spr.params.pos.h / 2.0f)) && sprite->dy > 0.0f)
+			if (sprite->spr.params.pos.y > (SCREEN_MAX_HEIGHT_SPRITES - (sprite->spr.params.pos.h / 2.0f)) && sprite->dy > 0.0f)
 				sprite->dy = sprite->dy - 30;
-			if (sprite->spr.params.pos.x > (SCREEN_WIDTH - (sprite->spr.params.pos.w / 2.0f)) && sprite->dx > 0.0f)
+			if (sprite->spr.params.pos.x > (SCREEN_MAX_WIDTH_SPRITES - (sprite->spr.params.pos.w / 2.0f)) && sprite->dx > 0.0f)
 				sprite->dx = sprite->dx - 30;
 			if (sprite->spr.params.pos.x < sprite->spr.params.pos.w / 2.0f && sprite->dx < (sprite->spr.params.pos.w))
 				sprite->dx = sprite->dx - 30;
+				*/
+
+				if ((sprite->spr.params.pos.x < sprite->spr.params.pos.w / 2.0f && sprite->dx < 0.0f) ||
+				(sprite->spr.params.pos.x > (SCREEN_WIDTH - (sprite->spr.params.pos.w / 2.0f)) && sprite->dx > 0.0f))
+				sprite->dx = -sprite->dx;
+
+				if ((sprite->spr.params.pos.y < sprite->spr.params.pos.h / 2.0f && sprite->dy < 0.0f) ||
+				(sprite->spr.params.pos.y > (SCREEN_HEIGHT - (sprite->spr.params.pos.h / 2.0f)) && sprite->dy > 0.0f))
+				sprite->dy = -sprite->dy;
 
 			//Set Sprite Scale
 			if (sprites[i].size == 0) { C2D_SpriteSetScale(&sprites[i].spr, 0.5f, 0.5f); }
@@ -152,11 +169,14 @@ static void initKatamari(){
  void setKatamariSize(int cont)
 {
 	Katamari *katamari = &katamaris[0];
+	
 		if (cont == 1){C2D_SpriteSetScale(&katamari->spr,1.0f,1.0f);}
 		if (cont == 2){C2D_SpriteSetScale(&katamari->spr,1.5f,1.5f);}
 		if (cont == 3){C2D_SpriteSetScale(&katamari->spr,2.0f,2.0f);}
 		if (cont == 4){C2D_SpriteSetScale(&katamari->spr,2.5f,2.5f);}
-		if (cont == 5) { C2D_SpriteSetScale(&katamari->spr, 3.0f, 3.0f); }
+		if (cont == 5){C2D_SpriteSetScale(&katamari->spr, 3.0f, 3.0f);}
+		if(cont == 6){C2D_SpriteSetScale(&katamari->spr, 3.5f, 3.5f);}
+		if (cont == 7){C2D_SpriteSetScale(&katamari->spr,4.0f,4.0f);}
 		currentSize = cont;
 }
 
@@ -174,7 +194,6 @@ static void movePlayer(u32 kHeld) {
 		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
 		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
 		setKatamariSize(katamari-> size);
-		//C2D_SpriteMove(&katamari->spr, katamari->dx, katamari->dy);
 		katamari->dy = katamari->dy- 1;	
 	}
 	else if (kHeld & KEY_DOWN) {
@@ -186,7 +205,6 @@ static void movePlayer(u32 kHeld) {
 		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
 		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
 		setKatamariSize(katamari-> size);
-		//C2D_SpriteMove(&katamari->spr, katamari->dx, katamari->dy);
 		katamari->dy = katamari->dy + 1;
 	}
 	else if (kHeld & KEY_RIGHT) {
@@ -198,7 +216,6 @@ static void movePlayer(u32 kHeld) {
 		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
 		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
 		setKatamariSize(katamari-> size);
-		//C2D_SpriteMove(&katamari->spr, katamari->dx, katamari->dy);
 		katamari->dx = katamari->dx + 1;
 	}
 	else if (kHeld & KEY_LEFT) {
@@ -210,7 +227,6 @@ static void movePlayer(u32 kHeld) {
 		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
 		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
 		setKatamariSize(katamari-> size);
-		//C2D_SpriteMove(&katamari->spr, katamari->dx, katamari->dy);
 		katamari->dx = katamari->dx - 1;
 	}
 	
@@ -220,10 +236,12 @@ static void movePlayer(u32 kHeld) {
 static void checkCollisions()
 {
 	Katamari *katamari = &katamaris[0];
-			for (size_t j = 0; j < 4; j++)
+			for (size_t j = 0; j < numSprites; j++)
 			{
 				if (sprites[j].visible == true)
 				{
+					if(katamari->size == 5) COLLISION_DISTANCE = 50;
+					if(katamari->size == 6) COLLISION_DISTANCE = 60;
 					if ((abs(katamari->spr.params.pos.x - sprites[j].spr.params.pos.x) < COLLISION_DISTANCE) 
 					&& (abs(katamari->spr.params.pos.y - sprites[j].spr.params.pos.y) < COLLISION_DISTANCE))
 					{
