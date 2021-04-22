@@ -66,7 +66,7 @@ typedef struct
 
 
 //SpriteSheets 
-static C2D_SpriteSheet backgroundSheet,katamariSheet,spriteSheet_all; //spriteSheet,
+static C2D_SpriteSheet backgroundSheet,katamariSheet,spriteSheet_all,spriteSheet,backgroundSheet_pink; //spriteSheet,
 
 //static C2D_SpriteSheet item_spritesheets[3];
 // Static variables such as sprites
@@ -83,14 +83,18 @@ static Katamari katamaris[MAX_SPRITES];
 
 //- Variable for number of objects picked up
 static int objectsCounter = 0;
-static int  currentSize =  1;
+static int currentSize =  1;
 //TO DO - Variable for objective size of Katamari (random number between 3 and 10)
 static int objectiveSize = 6;
+static int nivel = 0;
 
 //---------------------------------------------------------------------------------
 static void initBackground() {
 //---------------------------------------------------------------------------------
-	C2D_SpriteFromSheet(&background.spr, backgroundSheet, 0);
+	C2D_SpriteSheet variable;
+	if (nivel == 0) {variable = backgroundSheet; }
+	if (nivel == 1) {variable = backgroundSheet_pink; }
+	C2D_SpriteFromSheet(&background.spr, variable, 0);
 	C2D_SpriteSetCenter(&background.spr, 0.0f, 0.0f);
 	C2D_SpriteSetPos(&background.spr, 0.0f, 0.0f);
 	C2D_SpriteSetRotation(&background.spr, C3D_Angle(0));
@@ -106,9 +110,13 @@ static void initSprites() {
 
 	for (size_t i = 0; i < MAX_SPRITES; i++)
 	{
+		C2D_SpriteSheet variable;
+		if (nivel == 0) {variable = spriteSheet_all;}
+		if (nivel == 1) {variable = spriteSheet; }
 		Sprite *sprite = &sprites[i];
 		 if (i < 6) {
-			C2D_SpriteFromSheet(&sprite->spr, spriteSheet_all, i);
+			
+			C2D_SpriteFromSheet(&sprite->spr, variable, i);
 			C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 			C2D_SpriteSetPos(&sprite->spr, rand() % SCREEN_MAX_WIDTH_SPRITES, rand() % SCREEN_MAX_HEIGHT_SPRITES);
 			C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
@@ -332,11 +340,14 @@ int main(int argc, char* argv[]) {
 	if (!backgroundSheet)
 		svcBreak(USERBREAK_PANIC);
 
+	backgroundSheet_pink = C2D_SpriteSheetLoad("romfs:/gfx/background_pink.t3x");
+	if (!backgroundSheet)
+		svcBreak(USERBREAK_PANIC);
 	// Load graphics
-	/*
+	
 	spriteSheet = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
 		if (!spriteSheet) svcBreak(USERBREAK_PANIC);
-	*/
+	
 	spriteSheet_all = C2D_SpriteSheetLoad("romfs:/gfx/sprites_all.t3x");
 		if (!spriteSheet_all) svcBreak(USERBREAK_PANIC);
 
@@ -368,6 +379,19 @@ int main(int argc, char* argv[]) {
 	// Main loop
 	while (aptMainLoop())
 	{
+		if (objectsCounter == objectiveSize) { 
+			nivel += 1; 
+			// Initialize sprites
+			initSprites();
+			//Initialize player
+			initKatamari();
+			// Initialize background
+			initBackground();
+			objectsCounter = 0;
+			katamaris->size = 1;
+			COLLISION_DISTANCE = 20;
+
+		}
 		hidScanInput();
 		
 		//hidKeysDown returns information about which buttons have been just pressed (and they weren't in the previous frame)
@@ -402,10 +426,11 @@ int main(int argc, char* argv[]) {
 	}
 
 	// Delete graphics
-	//C2D_SpriteSheetFree(spriteSheet);
+	C2D_SpriteSheetFree(spriteSheet);
 	C2D_SpriteSheetFree(spriteSheet_all);
 	C2D_SpriteSheetFree(katamariSheet);
 	C2D_SpriteSheetFree(backgroundSheet);
+	C2D_SpriteSheetFree(backgroundSheet_pink);
 
 
 	
