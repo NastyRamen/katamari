@@ -1,4 +1,4 @@
-main.o: D\:/unityprojects/Katamari/source/main.c \
+main.o: C\:/Users/Nieves/Documents/GitHub/katamari/source/main.c \
  C\:/devkitPro/libctru/include/citro2d.h \
  C\:/devkitPro/libctru/include/citro3d.h \
  C\:/devkitPro/libctru/include/c3d/types.h \

@@ -1,2 +1,8 @@
 --atlas -f rgba8888 -z auto
-background.png
+background_pink.png
+background_red.png
+background_orange.png
+background_yellow.png
+background_green.png
+background_blue.png
+background_purple.png
