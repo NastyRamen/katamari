@@ -120,7 +120,7 @@ static void initSprites() {
 		if (menus == 1) {
 			for (size_t i = 0; i < MAX_SPRITES; i++) {
 				Sprite* sprite = &sprites[i];
-				if (i < 3) {
+				if (i < 4) {
 					if (i == 0) {
 						//START
 						C2D_SpriteFromSheet(&sprite->spr, variable, i);
@@ -182,7 +182,7 @@ static void initSprites() {
 						sprite->dy = 200.0f;
 
 						sprites[i].visible = true;
-						sprites[i].size = 4;
+						sprites[i].size = 3;
 						//CREDITOS
 					}
 				}
