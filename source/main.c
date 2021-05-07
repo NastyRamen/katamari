@@ -20,7 +20,7 @@ Curso 2020-2021
 #define SCREEN_WIDTH  400
 #define SCREEN_HEIGHT 240
 #define CHARACTER_SPEED 2
-
+#define TIMER_TIME 50000
 
 #define SCREEN_MAX_WIDTH_SPRITES  400
 #define SCREEN_MAX_HEIGHT_SPRITES 240
@@ -255,7 +255,7 @@ static void initSprites() {
 						sprite->dy = 200.0f;
 
 						sprites[i].visible = true;
-						sprites[i].size = 3;
+						sprites[i].size = 4;
 						//CREDITOS
 					}
 				}
@@ -327,7 +327,7 @@ static void initSprites() {
 						sprite->dy = 200.0f;
 
 						sprites[i].visible = true;
-						sprites[i].size = 3;
+						sprites[i].size = 4;
 						//CREDITOS
 					}
 				}
@@ -787,7 +787,7 @@ int main(int argc, char* argv[]) {
 	initKatamari();
 
 	//Timer in seconds
-	double timer = 500;
+	double timer = TIMER_TIME;
 	//TO DO - Variable for current size of Katamari
 	
 	
@@ -803,6 +803,28 @@ int main(int argc, char* argv[]) {
 	// Main loop
 	while (aptMainLoop())
 	{
+		//Timer set/reset
+		if (menus == 1) { timer = TIMER_TIME; }
+		//Timer stops on credits & victory
+		if (menus == 2 || menus == 3 || menus == 4) { timer = 0; }
+		//Timer
+		if (timer == 1) {
+			//Make unnecesary sprites invisible
+			sprites[4].visible = false;
+			sprites[5].visible = false;
+			sprites[6].visible = false;
+			timer = 0;
+			menus = 2;
+			nivel = 0;
+			initSprites();
+			//Initialize player
+			initKatamari();
+			// Initialize background
+			initBackground();
+			objectsCounter = 0;
+			katamaris->size = 1;
+			COLLISION_DISTANCE = 20;
+		}
 		if (objectsCounter + 1 == objectiveSize) { 
 			nivel += 1; 
 			// Initialize sprites
