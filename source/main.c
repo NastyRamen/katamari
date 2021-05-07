@@ -66,7 +66,7 @@ typedef struct
 
 
 //SpriteSheets 
-static C2D_SpriteSheet backgroundSheet,katamariSheet,spriteSheet_normal,spriteSheet_pink, backgroundSheet_menu, spriteSheet_buttons;
+static C2D_SpriteSheet backgroundSheet,katamariSheet,spriteSheet_normal,spriteSheet_pink, backgroundSheet_menu, spriteSheet_buttons, spriteSheet_creditos;
 
 
 //static C2D_SpriteSheet item_spritesheets[3];
@@ -337,6 +337,7 @@ static void initSprites() {
 		if (menus == 4) {
 			for (size_t i = 0; i < MAX_SPRITES; i++) {
 				Sprite* sprite = &sprites[i];
+				//BOTONES
 				if (i < 4) {
 					if (i == 0) {
 						//START
@@ -403,7 +404,58 @@ static void initSprites() {
 						//CREDITOS
 					}
 				}
+				//ICONOS
+				if (i < 7) {
+					if (i == 4) {
+						C2D_SpriteFromSheet(&sprite->spr, spriteSheet_creditos, 0);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 100.0f, 175.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 100.0f;
+						sprite->dy = 175.0f;
+
+						sprites[i].visible = true;
+						sprites[i].size = 1;
+						//START
+					}
+					if (i == 5) {
+						//MENU
+						C2D_SpriteFromSheet(&sprite->spr, spriteSheet_creditos, 1);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 200.0f, 140.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 200.0f;
+						sprite->dy = 140.0f;
+
+						sprites[i].visible = true;
+						sprites[i].size = 1;
+						//MENU
+					}
+					if (i == 6) {
+						//EXIT
+						C2D_SpriteFromSheet(&sprite->spr, spriteSheet_creditos, 2);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 300.0f, 175.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 300.0f;
+						sprite->dy = 175.0f;
+
+						sprites[i].visible = true;
+						sprites[i].size = 1;
+						//EXIT
+					}
+				}
 			}
+			variable = spriteSheet_creditos;
 		}
 	}
 
@@ -558,7 +610,8 @@ static void checkCollisions()
 					&& (abs(katamari->spr.params.pos.y - sprites[j].spr.params.pos.y) < COLLISION_DISTANCE))
 					{
 						if (menus > 0) {
-							if (sprites[j].size == 1) {
+							//START
+							if (sprites[j].size == 1 && menus != 4) {
 								nivel = 0;
 								menus = 0;
 								// Initialize sprites
@@ -571,9 +624,18 @@ static void checkCollisions()
 								katamaris->size = 1;
 								COLLISION_DISTANCE = 20;
 							}
+							else if (menus == 4){
+								katamari->size = katamari->size + 1;
+								//object j  disappears
+								sprites[j].visible = false;
+							}
+							//MENU
 							if (sprites[j].size == 2) {
 								nivel = 0;
-								menus = 0;
+								menus = 1;
+								sprites[4].visible = false;
+								sprites[5].visible = false;
+								sprites[6].visible = false;
 								// Initialize sprites
 								initSprites();
 								//Initialize player
@@ -584,8 +646,23 @@ static void checkCollisions()
 								katamaris->size = 1;
 								COLLISION_DISTANCE = 20;
 							}
+							//EXIT
 							if (sprites[j].size == 3) {
 								exitButton = true;
+							}
+							//CREDITOS
+							if (sprites[j].size == 4) {
+								nivel = 0;
+								menus = 4;
+								// Initialize sprites
+								initSprites();
+								//Initialize player
+								initKatamari();
+								// Initialize background
+								initBackground();
+								objectsCounter = 0;
+								katamaris->size = 1;
+								COLLISION_DISTANCE = 20;
 							}
 						}
 						else if (katamari->size > sprites[j].size) {
@@ -688,6 +765,10 @@ int main(int argc, char* argv[]) {
 	if (!spriteSheet_buttons)
 		svcBreak(USERBREAK_PANIC);
 
+	spriteSheet_creditos = C2D_SpriteSheetLoad("romfs:/gfx/sprites_creditos.t3x");
+	if (!spriteSheet_creditos)
+		svcBreak(USERBREAK_PANIC);
+
 	spriteSheet_normal = C2D_SpriteSheetLoad("romfs:/gfx/sprites_normal.t3x");
 	if (!spriteSheet_normal)
 		svcBreak(USERBREAK_PANIC);
@@ -706,7 +787,7 @@ int main(int argc, char* argv[]) {
 	initKatamari();
 
 	//Timer in seconds
-	double timer = 100000;
+	double timer = 500;
 	//TO DO - Variable for current size of Katamari
 	
 	
@@ -776,6 +857,7 @@ int main(int argc, char* argv[]) {
 	C2D_SpriteSheetFree(backgroundSheet);
 	C2D_SpriteSheetFree(backgroundSheet_menu); 
 	C2D_SpriteSheetFree(spriteSheet_buttons);
+	C2D_SpriteSheetFree(spriteSheet_creditos);
 
 
 	
