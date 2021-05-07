@@ -803,6 +803,23 @@ int main(int argc, char* argv[]) {
 	// Main loop
 	while (aptMainLoop())
 	{
+		//Checks if you have won
+		if (nivel == 7) {
+			sprites[4].visible = false;
+			sprites[5].visible = false;
+			sprites[6].visible = false;
+			timer = 0;
+			menus = 3;
+			nivel = 0;
+			initSprites();
+			//Initialize player
+			initKatamari();
+			// Initialize background
+			initBackground();
+			objectsCounter = 0;
+			katamaris->size = 1;
+			COLLISION_DISTANCE = 20;
+		}
 		//Timer set/reset
 		if (menus == 1) { timer = TIMER_TIME; }
 		//Timer stops on credits & victory
