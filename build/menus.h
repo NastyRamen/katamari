@@ -2,4 +2,6 @@
 #pragma once
 
 #define menus_background_main_idx 0
-#define menus_background_other_idx 1
+#define menus_gameover_idx 1
+#define menus_winscreen_idx 2
+#define menus_background_other_idx 3

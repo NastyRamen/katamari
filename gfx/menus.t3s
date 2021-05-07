@@ -1,3 +1,5 @@
 --atlas -f rgba8888 -z auto
 background_main.png
+gameover.png
+winscreen.png
 background_other.png

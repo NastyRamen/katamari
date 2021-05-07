@@ -117,6 +117,7 @@ static void initSprites() {
 	C2D_SpriteSheet variable;
 	if (menus > 0) {
 		variable = spriteSheet_buttons;
+		//Menu principal
 		if (menus == 1) {
 			for (size_t i = 0; i < MAX_SPRITES; i++) {
 				Sprite* sprite = &sprites[i];
@@ -182,6 +183,222 @@ static void initSprites() {
 						sprite->dy = 200.0f;
 
 						sprites[i].visible = true;
+						sprites[i].size = 4;
+						//CREDITOS
+					}
+				}
+			}
+		}
+		//Derrota
+		if (menus == 2) {
+			for (size_t i = 0; i < MAX_SPRITES; i++) {
+				Sprite* sprite = &sprites[i];
+				if (i < 4) {
+					if (i == 0) {
+						//START
+						C2D_SpriteFromSheet(&sprite->spr, variable, i);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 0.0f, 0.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 0.0f;
+						sprite->dy = 0.0f;
+
+						sprites[i].visible = false;
+						sprites[i].size = 1;
+						//START
+					}
+					if (i == 1) {
+						//MENU
+						C2D_SpriteFromSheet(&sprite->spr, variable, i);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 75.0f, 173.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 75.0f;
+						sprite->dy = 173.0f;
+
+						sprites[i].visible = true;
+						sprites[i].size = 2;
+						//MENU
+					}
+					if (i == 2) {
+						//EXIT
+						C2D_SpriteFromSheet(&sprite->spr, variable, i);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 325.0f, 173.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 325.0f;
+						sprite->dy = 173.0f;
+
+						sprites[i].visible = true;
+						sprites[i].size = 3;
+						//EXIT
+					}
+					if (i == 3) {
+						//CREDITOS
+						C2D_SpriteFromSheet(&sprite->spr, variable, i);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 200.0f, 200.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 200.0f;
+						sprite->dy = 200.0f;
+
+						sprites[i].visible = true;
+						sprites[i].size = 3;
+						//CREDITOS
+					}
+				}
+			}
+		}
+		//Victoria (posible mezclar con derrota?)
+		if (menus == 3) {
+			for (size_t i = 0; i < MAX_SPRITES; i++) {
+				Sprite* sprite = &sprites[i];
+				if (i < 4) {
+					if (i == 0) {
+						//START
+						C2D_SpriteFromSheet(&sprite->spr, variable, i);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 0.0f, 0.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 0.0f;
+						sprite->dy = 0.0f;
+
+						sprites[i].visible = false;
+						sprites[i].size = 1;
+						//START
+					}
+					if (i == 1) {
+						//MENU
+						C2D_SpriteFromSheet(&sprite->spr, variable, i);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 75.0f, 173.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 75.0f;
+						sprite->dy = 173.0f;
+
+						sprites[i].visible = true;
+						sprites[i].size = 2;
+						//MENU
+					}
+					if (i == 2) {
+						//EXIT
+						C2D_SpriteFromSheet(&sprite->spr, variable, i);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 325.0f, 173.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 325.0f;
+						sprite->dy = 173.0f;
+
+						sprites[i].visible = true;
+						sprites[i].size = 3;
+						//EXIT
+					}
+					if (i == 3) {
+						//CREDITOS
+						C2D_SpriteFromSheet(&sprite->spr, variable, i);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 200.0f, 200.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 200.0f;
+						sprite->dy = 200.0f;
+
+						sprites[i].visible = true;
+						sprites[i].size = 3;
+						//CREDITOS
+					}
+				}
+			}
+		}
+		//Creditos
+		if (menus == 4) {
+			for (size_t i = 0; i < MAX_SPRITES; i++) {
+				Sprite* sprite = &sprites[i];
+				if (i < 4) {
+					if (i == 0) {
+						//START
+						C2D_SpriteFromSheet(&sprite->spr, variable, i);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 0.0f, 0.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 0.0f;
+						sprite->dy = 0.0f;
+
+						sprites[i].visible = false;
+						sprites[i].size = 1;
+						//START
+					}
+					if (i == 1) {
+						//MENU
+						C2D_SpriteFromSheet(&sprite->spr, variable, i);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 200.0f, 200.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 200.0f;
+						sprite->dy = 200.0f;
+
+						sprites[i].visible = true;
+						sprites[i].size = 2;
+						//MENU
+					}
+					if (i == 2) {
+						//EXIT
+						C2D_SpriteFromSheet(&sprite->spr, variable, i);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 325.0f, 173.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 325.0f;
+						sprite->dy = 173.0f;
+
+						sprites[i].visible = false;
+						sprites[i].size = 3;
+						//EXIT
+					}
+					if (i == 3) {
+						//CREDITOS
+						C2D_SpriteFromSheet(&sprite->spr, variable, i);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 0.0f, 0.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 0.0f;
+						sprite->dy = 0.0f;
+
+						sprites[i].visible = false;
 						sprites[i].size = 3;
 						//CREDITOS
 					}
