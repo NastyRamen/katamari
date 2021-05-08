@@ -16,12 +16,12 @@ Curso 2020-2021
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
 #define MAX_SPRITES   768
 #define SCREEN_WIDTH  400
 #define SCREEN_HEIGHT 240
 #define CHARACTER_SPEED 2
 #define TIMER_TIME 50000
-
 #define SCREEN_MAX_WIDTH_SPRITES  400
 #define SCREEN_MAX_HEIGHT_SPRITES 240
 
@@ -68,8 +68,6 @@ typedef struct
 //SpriteSheets 
 static C2D_SpriteSheet backgroundSheet,katamariSheet,spriteSheet_normal,spriteSheet_pink, backgroundSheet_menu, spriteSheet_buttons, spriteSheet_creditos;
 
-
-//static C2D_SpriteSheet item_spritesheets[3];
 // Static variables such as sprites
 static Sprite sprites[MAX_SPRITES];
 static size_t numSprites = MAX_SPRITES/2;
@@ -85,7 +83,8 @@ static Katamari katamaris[MAX_SPRITES];
 //- Variable for number of objects picked up
 static int objectsCounter = 0;
 static int currentSize =  1;
-//TO DO - Variable for objective size of Katamari (random number between 3 and 10)
+
+// Variable for objective size of Katamari 
 static int objectiveSize = 7;
 static int nivel = 0;
 static int menus = 1;
@@ -532,7 +531,7 @@ static void initKatamari(){
  void setKatamariSize(int cont)
 {
 	Katamari *katamari = &katamaris[0];
-	
+		//calculate how much katamari grows
 		if (cont == 1){C2D_SpriteSetScale(&katamari->spr,1.0f,1.0f);}
 		if (cont == 2){C2D_SpriteSetScale(&katamari->spr,1.5f,1.5f);}
 		if (cont == 3){C2D_SpriteSetScale(&katamari->spr,2.0f,2.0f);}
@@ -591,9 +590,7 @@ static void movePlayer(u32 kHeld) {
 		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
 		setKatamariSize(katamari-> size);
 		katamari->dx = katamari->dx - 1;
-	}
-	
-
+	}	
 }
 
 static void checkCollisions()
@@ -671,7 +668,6 @@ static void checkCollisions()
 							sprites[j].visible = false;
 							objectsCounter++;
 							}
-					
 					}
 				}
 			}
@@ -679,39 +675,10 @@ static void checkCollisions()
 
 
 
-/*
-//---------------------------------------------------------------------------------
-static void moveSprites() {
-//---------------------------------------------------------------------------------
-	for (size_t i = 0; i < numSprites; i++)
-	{
-		Sprite *sprite = &sprites[i];
-		if (i == 3)
-		{
-			//------------------------------
-		}
-		else
-		{
-			C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
-			C2D_SpriteRotateDegrees(&sprite->spr, 1.0f);
-
-			// Check for collision with the screen boundaries
-			if ((sprite->spr.params.pos.x < sprite->spr.params.pos.w / 2.0f && sprite->dx < 0.0f) ||
-				(sprite->spr.params.pos.x > (SCREEN_WIDTH - (sprite->spr.params.pos.w / 2.0f)) && sprite->dx > 0.0f))
-				sprite->dx = -sprite->dx;
-
-			if ((sprite->spr.params.pos.y < sprite->spr.params.pos.h / 2.0f && sprite->dy < 0.0f) ||
-				(sprite->spr.params.pos.y > (SCREEN_HEIGHT - (sprite->spr.params.pos.h / 2.0f)) && sprite->dy > 0.0f))
-				sprite->dy = -sprite->dy;
-		}
-	}
-}
-*/
-
 static void drawScene()
 {	
 	C2D_DrawSprite(&background.spr);
-	// sprites - objects
+	// Draw sprites - objects
 	for (size_t i = 0; i < numSprites; i ++){
 		// objects picked up by the katamari => objects are not drawn
 		if(sprites[i].visible == true){
@@ -719,7 +686,7 @@ static void drawScene()
 		}
 	}
 	Katamari *katamari = &katamaris[0];
-	// Katamari
+	//  Draw katamari
 	for (size_t i = 0; i < 1; i ++){
 		if (katamari-> size  == 1){
 			C2D_DrawSprite(&katamaris[i].spr);
@@ -747,8 +714,7 @@ int main(int argc, char* argv[]) {
 	// Create screens
 	C3D_RenderTarget* top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
 
-	//Background for the different levels
-	// 
+	//Background for the different levels and screens 
 	backgroundSheet = C2D_SpriteSheetLoad("romfs:/gfx/background.t3x");
 	if (!backgroundSheet)
 		svcBreak(USERBREAK_PANIC);
@@ -788,11 +754,7 @@ int main(int argc, char* argv[]) {
 
 	//Timer in seconds
 	double timer = TIMER_TIME;
-	//TO DO - Variable for current size of Katamari
 	
-	
-	
-
 	printf("\x1b[16;15H\x1b[47;30mKATAMARI 3DS\x1b[0m");	
 	printf("\x1b[18;0H\x1b[47;30mMake the Katamari as big as possible within the time limit\x1b[0m");
 	//"Menu" options on top left corner
@@ -897,9 +859,6 @@ int main(int argc, char* argv[]) {
 	C2D_SpriteSheetFree(backgroundSheet_menu); 
 	C2D_SpriteSheetFree(spriteSheet_buttons);
 	C2D_SpriteSheetFree(spriteSheet_creditos);
-
-
-	
 
 	// Deinit libs
 	C2D_Fini();
