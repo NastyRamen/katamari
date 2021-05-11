@@ -21,6 +21,7 @@ Curso 2020-2021
 #define SCREEN_WIDTH  400
 #define SCREEN_HEIGHT 240
 #define CHARACTER_SPEED 2
+#define ANIMATION_SPACER 5
 #define TIMER_TIME 50000
 #define SCREEN_MAX_WIDTH_SPRITES  400
 #define SCREEN_MAX_HEIGHT_SPRITES 240
@@ -64,9 +65,8 @@ typedef struct
 	int objectCounter;
 } Katamari;
 
-
 //SpriteSheets 
-static C2D_SpriteSheet backgroundSheet,katamariSheet,spriteSheet_normal,spriteSheet_pink, backgroundSheet_menu, spriteSheet_buttons, spriteSheet_creditos;
+static C2D_SpriteSheet backgroundSheet,spriteSheet_normal,spriteSheet_pink, backgroundSheet_menu, spriteSheet_buttons, spriteSheet_creditos, katamariSheetD, katamariSheetU, katamariSheetL, katamariSheetR;
 
 // Static variables such as sprites
 static Sprite sprites[MAX_SPRITES];
@@ -79,6 +79,9 @@ static Background background;
 
 //katamari (main character)
 static Katamari katamaris[MAX_SPRITES];
+static Sprite katamariSprites[20];
+static int direction = 0;
+static int frameCounter = 0;
 
 //- Variable for number of objects picked up
 static int objectsCounter = 0;
@@ -89,6 +92,8 @@ static int objectiveSize = 7;
 static int nivel = 0;
 static int menus = 1;
 static bool exitButton = false;
+
+//---- Initialize all sprites ----//
 //---------------------------------------------------------------------------------
 static void initBackground() {
 //---------------------------------------------------------------------------------
@@ -114,6 +119,7 @@ static void initSprites() {
 //---------------------------------------------------------------------------------
 	srand(time(NULL));
 	C2D_SpriteSheet variable;
+//---------------------------------------------------------------------------------
 	if (menus > 0) {
 		variable = spriteSheet_buttons;
 		//Menu principal
@@ -457,7 +463,7 @@ static void initSprites() {
 			variable = spriteSheet_creditos;
 		}
 	}
-
+//---------------------------------------------------------------------------------
 	else {
 		for (size_t i = 0; i < MAX_SPRITES; i++)
 		{
@@ -507,28 +513,30 @@ static void initSprites() {
 			if (sprites[i].size == 1) { C2D_SpriteSetScale(&sprites[i].spr, 1.0f, 1.0f); }
 			if (sprites[i].size == 2) { C2D_SpriteSetScale(&sprites[i].spr, 1.5f, 1.5f); }
 		}
-
-
-
-
 		}
 	}
 }
 
+//----- Initialize Katamari ------//
+//---------------------------------------------------------------------------------
 static void initKatamari(){
- Katamari *katamari = &katamaris[0];
-	C2D_SpriteFromSheet(&katamari->spr, katamariSheet, 0);
-	C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
-	C2D_SpriteSetPos(&katamari->spr, 200.0f, 110.0f);
+//---------------------------------------------------------------------------------
+	
+		Katamari *katamari = &katamaris[0];
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 0);
+		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
+		C2D_SpriteSetPos(&katamari->spr, 200.0f, 110.0f);
 
-	// Set sprite above background
-	C2D_SpriteSetDepth(&katamari->spr, 0.3f);
-	katamari->dx = 200.0f;
-	katamari->dy = 110.0f;
-	katamari->size = katamari->size + 1;
-
+		// Set sprite above background
+		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
+		katamari->dx = 200.0f;
+		katamari->dy = 110.0f;
+		katamari->size = katamari->size + 1;
 }
- void setKatamariSize(int cont)
+
+//---------------------------------------------------------------------------------
+void setKatamariSize(int cont)
+//---------------------------------------------------------------------------------
 {
 	Katamari *katamari = &katamaris[0];
 		//calculate how much katamari grows
@@ -542,58 +550,210 @@ static void initKatamari(){
 		currentSize = cont;
 }
 
+//------- Player movement --------//
 //---------------------------------------------------------------------------------
 static void movePlayer(u32 kHeld) {
 //---------------------------------------------------------------------------------
 	Katamari *katamari = &katamaris[0];
 
 	if (kHeld & KEY_UP) {
-		// Check for collision with the screen boundaries
+		goUp();
+		frameCounter++;
+	}
+	else if (kHeld & KEY_DOWN) {
+		goDown();
+		frameCounter++;
+	}
+	else if (kHeld & KEY_RIGHT) {
+		goRight();
+		frameCounter++;
+	}
+	else if (kHeld & KEY_LEFT) {
+		goLeft();
+		frameCounter++;
+	}	
+}
+
+void goUp()
+{
+	Katamari *katamari = &katamaris[0];
+	// Check for collision with the screen boundaries
 		if (katamari->spr.params.pos.y < katamari->spr.params.pos.h / 2.0f && katamari->dy < (katamari->spr.params.pos.h))
 			katamari->dy = (katamari->spr.params.pos.h / 2);
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheet, 3);
 		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
 		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
 		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
 		setKatamariSize(katamari-> size);
 		katamari->dy = katamari->dy- 1;	
+	if (direction != 3)
+	{
+		direction = 3;
+		frameCounter = 0;
 	}
-	else if (kHeld & KEY_DOWN) {
-		// Check for collision with the screen boundaries
+	if (frameCounter == 0)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 0);
+	}
+	if (frameCounter == ANIMATION_SPACER)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 1);
+	}
+	if (frameCounter == ANIMATION_SPACER * 2)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 2);
+	}
+	if (frameCounter == ANIMATION_SPACER * 3)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 3);
+	}
+	if (frameCounter == ANIMATION_SPACER * 4)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 4);
+	}
+	if (frameCounter == ANIMATION_SPACER * 4)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 5);
+		frameCounter = 0;
+	}
+}
+
+void goDown()
+{
+	Katamari *katamari = &katamaris[0];
+	// Check for collision with the screen boundaries
 		if (katamari->spr.params.pos.y > (SCREEN_HEIGHT - (katamari->spr.params.pos.h / 2.0f)) && katamari->dy > 0.0f)
 			katamari->dy = SCREEN_HEIGHT - (katamari->spr.params.pos.h / 2);
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheet, 0);
+		
 		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
 		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
 		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
 		setKatamariSize(katamari-> size);
 		katamari->dy = katamari->dy + 1;
+	if (direction != 3)
+	{
+		direction = 3;
+		frameCounter = 0;
 	}
-	else if (kHeld & KEY_RIGHT) {
-		// Check for collision with the screen boundaries
-		if (katamari->spr.params.pos.x > (SCREEN_WIDTH - (katamari->spr.params.pos.w / 2.0f)) && katamari->dx > 0.0f)
-			katamari->dx = SCREEN_WIDTH - (katamari->spr.params.pos.w / 2);
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheet, 2);
-		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
-		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
-		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
-		setKatamariSize(katamari-> size);
-		katamari->dx = katamari->dx + 1;
+	if (frameCounter == 0)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 0);
 	}
-	else if (kHeld & KEY_LEFT) {
-		// Check for collision with the screen boundaries
+	if (frameCounter == ANIMATION_SPACER)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 1);
+	}
+	if (frameCounter == ANIMATION_SPACER * 2)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 2);
+	}
+	if (frameCounter == ANIMATION_SPACER * 3)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 3);
+	}
+	if (frameCounter == ANIMATION_SPACER * 4)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 4);
+	}
+	if (frameCounter == ANIMATION_SPACER * 4)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 5);
+		frameCounter = 0;
+	}
+}
+
+void goLeft()
+{
+	Katamari *katamari = &katamaris[0];
+	// Check for collision with the screen boundaries
 		if (katamari->spr.params.pos.x < katamari->spr.params.pos.w / 2.0f && katamari->dx < (katamari->spr.params.pos.w))
 			katamari->dx = (katamari->spr.params.pos.w / 2);
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheet, 1);
+		
 		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
 		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
 		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
 		setKatamariSize(katamari-> size);
 		katamari->dx = katamari->dx - 1;
-	}	
+	if (direction != 3)
+	{
+		direction = 3;
+		frameCounter = 0;
+	}
+	if (frameCounter == 0)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 0);
+	}
+	if (frameCounter == ANIMATION_SPACER)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 1);
+	}
+	if (frameCounter == ANIMATION_SPACER * 2)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 2);
+	}
+	if (frameCounter == ANIMATION_SPACER * 3)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 3);
+	}
+	if (frameCounter == ANIMATION_SPACER * 4)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 4);
+	}
+	if (frameCounter == ANIMATION_SPACER * 4)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 5);
+		frameCounter = 0;
+	}
 }
 
+void goRight()
+{
+	Katamari *katamari = &katamaris[0];
+	// Check for collision with the screen boundaries
+		if (katamari->spr.params.pos.x > (SCREEN_WIDTH - (katamari->spr.params.pos.w / 2.0f)) && katamari->dx > 0.0f)
+			katamari->dx = SCREEN_WIDTH - (katamari->spr.params.pos.w / 2);
+		
+		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
+		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
+		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
+		setKatamariSize(katamari-> size);
+		katamari->dx = katamari->dx + 1;
+	if (direction != 3)
+	{
+		direction = 3;
+		frameCounter = 0;
+	}
+	if (frameCounter == 0)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 0);
+	}
+	if (frameCounter == ANIMATION_SPACER)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 1);
+	}
+	if (frameCounter == ANIMATION_SPACER * 2)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 2);
+	}
+	if (frameCounter == ANIMATION_SPACER * 3)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 3);
+	}
+	if (frameCounter == ANIMATION_SPACER * 4)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 4);
+	}
+	if (frameCounter == ANIMATION_SPACER * 4)
+	{
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 5);
+		frameCounter = 0;
+	}
+}
+
+
+//------------ Scene -------------//
+//---------------------------------------------------------------------------------
 static void checkCollisions()
+//---------------------------------------------------------------------------------
 {
 	Katamari *katamari = &katamaris[0];
 			for (size_t j = 0; j < numSprites; j++)
@@ -673,9 +833,9 @@ static void checkCollisions()
 			}
 }
 
-
-
+//---------------------------------------------------------------------------------
 static void drawScene()
+//---------------------------------------------------------------------------------
 {	
 	C2D_DrawSprite(&background.spr);
 	// Draw sprites - objects
@@ -698,7 +858,7 @@ static void drawScene()
 	}
 }
 
-
+//------------- Main -------------//
 //---------------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
 //---------------------------------------------------------------------------------
@@ -739,9 +899,18 @@ int main(int argc, char* argv[]) {
 	if (!spriteSheet_normal)
 		svcBreak(USERBREAK_PANIC);
 
-
-		katamariSheet = C2D_SpriteSheetLoad("romfs:/gfx/katamari.t3x");
-	if (!katamariSheet)
+	//Katamari animation spritesheets
+	katamariSheetD = C2D_SpriteSheetLoad("romfs:/gfx/katamari_d.t3x");
+	if (!katamariSheetD)
+		svcBreak(USERBREAK_PANIC);
+	katamariSheetU = C2D_SpriteSheetLoad("romfs:/gfx/katamari_u.t3x");
+	if (!katamariSheetU)
+		svcBreak(USERBREAK_PANIC);
+	katamariSheetL = C2D_SpriteSheetLoad("romfs:/gfx/katamari_l.t3x");
+	if (!katamariSheetL)
+		svcBreak(USERBREAK_PANIC);
+	katamariSheetR = C2D_SpriteSheetLoad("romfs:/gfx/katamari_r.t3x");
+	if (!katamariSheetR)
 		svcBreak(USERBREAK_PANIC);
 
 
@@ -854,7 +1023,10 @@ int main(int argc, char* argv[]) {
 	// Delete graphics
 	C2D_SpriteSheetFree(spriteSheet_pink);
 	C2D_SpriteSheetFree(spriteSheet_normal);
-	C2D_SpriteSheetFree(katamariSheet);
+	C2D_SpriteSheetFree(katamariSheetD);
+	C2D_SpriteSheetFree(katamariSheetU);
+	C2D_SpriteSheetFree(katamariSheetL);
+	C2D_SpriteSheetFree(katamariSheetR);
 	C2D_SpriteSheetFree(backgroundSheet);
 	C2D_SpriteSheetFree(backgroundSheet_menu); 
 	C2D_SpriteSheetFree(spriteSheet_buttons);
