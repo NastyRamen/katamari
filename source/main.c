@@ -577,14 +577,6 @@ static void movePlayer(u32 kHeld) {
 void goUp()
 {
 	Katamari *katamari = &katamaris[0];
-	// Check for collision with the screen boundaries
-		if (katamari->spr.params.pos.y < katamari->spr.params.pos.h / 2.0f && katamari->dy < (katamari->spr.params.pos.h))
-			katamari->dy = (katamari->spr.params.pos.h / 2);
-		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
-		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
-		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
-		setKatamariSize(katamari-> size);
-		katamari->dy = katamari->dy- 1;	
 	if (direction != 3)
 	{
 		direction = 3;
@@ -615,20 +607,19 @@ void goUp()
 		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 0);
 		frameCounter = 0;
 	}
+	// Check for collision with the screen boundaries
+		if (katamari->spr.params.pos.y < katamari->spr.params.pos.h / 2.0f && katamari->dy < (katamari->spr.params.pos.h))
+			katamari->dy = (katamari->spr.params.pos.h / 2);
+		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
+		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
+		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
+		setKatamariSize(katamari-> size);
+		katamari->dy = katamari->dy- 1;	
 }
 
 void goDown()
 {
 	Katamari *katamari = &katamaris[0];
-	// Check for collision with the screen boundaries
-		if (katamari->spr.params.pos.y > (SCREEN_HEIGHT - (katamari->spr.params.pos.h / 2.0f)) && katamari->dy > 0.0f)
-			katamari->dy = SCREEN_HEIGHT - (katamari->spr.params.pos.h / 2);
-		
-		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
-		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
-		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
-		setKatamariSize(katamari-> size);
-		katamari->dy = katamari->dy + 1;
 	if (direction != 3)
 	{
 		direction = 3;
@@ -659,20 +650,20 @@ void goDown()
 		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 0);
 		frameCounter = 0;
 	}
-}
-
-void goLeft()
-{
-	Katamari *katamari = &katamaris[0];
 	// Check for collision with the screen boundaries
-		if (katamari->spr.params.pos.x < katamari->spr.params.pos.w / 2.0f && katamari->dx < (katamari->spr.params.pos.w))
-			katamari->dx = (katamari->spr.params.pos.w / 2);
+		if (katamari->spr.params.pos.y > (SCREEN_HEIGHT - (katamari->spr.params.pos.h / 2.0f)) && katamari->dy > 0.0f)
+			katamari->dy = SCREEN_HEIGHT - (katamari->spr.params.pos.h / 2);
 		
 		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
 		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
 		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
 		setKatamariSize(katamari-> size);
-		katamari->dx = katamari->dx - 1;
+		katamari->dy = katamari->dy + 1;
+}
+
+void goLeft()
+{
+	Katamari *katamari = &katamaris[0];
 	if (direction != 3)
 	{
 		direction = 3;
@@ -703,20 +694,20 @@ void goLeft()
 		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 0);
 		frameCounter = 0;
 	}
-}
-
-void goRight()
-{
-	Katamari *katamari = &katamaris[0];
 	// Check for collision with the screen boundaries
-		if (katamari->spr.params.pos.x > (SCREEN_WIDTH - (katamari->spr.params.pos.w / 2.0f)) && katamari->dx > 0.0f)
-			katamari->dx = SCREEN_WIDTH - (katamari->spr.params.pos.w / 2);
+		if (katamari->spr.params.pos.x < katamari->spr.params.pos.w / 2.0f && katamari->dx < (katamari->spr.params.pos.w))
+			katamari->dx = (katamari->spr.params.pos.w / 2);
 		
 		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
 		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
 		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
 		setKatamariSize(katamari-> size);
-		katamari->dx = katamari->dx + 1;
+		katamari->dx = katamari->dx - 1;
+}
+
+void goRight()
+{
+	Katamari *katamari = &katamaris[0];
 	if (direction != 3)
 	{
 		direction = 3;
@@ -747,6 +738,15 @@ void goRight()
 		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 0);
 		frameCounter = 0;
 	}
+	// Check for collision with the screen boundaries
+		if (katamari->spr.params.pos.x > (SCREEN_WIDTH - (katamari->spr.params.pos.w / 2.0f)) && katamari->dx > 0.0f)
+			katamari->dx = SCREEN_WIDTH - (katamari->spr.params.pos.w / 2);
+		
+		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
+		C2D_SpriteSetPos(&katamari->spr, katamari->dx, katamari->dy);
+		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
+		setKatamariSize(katamari-> size);
+		katamari->dx = katamari->dx + 1;
 }
 
 
