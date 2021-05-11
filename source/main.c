@@ -66,7 +66,7 @@ typedef struct
 } Katamari;
 
 //SpriteSheets 
-static C2D_SpriteSheet backgroundSheet,spriteSheet_normal,spriteSheet_pink, backgroundSheet_menu, spriteSheet_buttons, spriteSheet_creditos, katamariSheetD, katamariSheetU, katamariSheetL, katamariSheetR;
+static C2D_SpriteSheet backgroundSheet,spriteSheet_normal,spriteSheet_pink, backgroundSheet_menu, spriteSheet_buttons, spriteSheet_creditos,spriteSheet_1,spriteSheet_2, katamariSheetD, katamariSheetU, katamariSheetL, katamariSheetR;
 
 // Static variables such as sprites
 static Sprite sprites[MAX_SPRITES];
@@ -467,10 +467,10 @@ static void initSprites() {
 	else {
 		for (size_t i = 0; i < MAX_SPRITES; i++)
 		{
-
-
-			if (nivel == 0) { variable = spriteSheet_pink; }
-			else { variable = spriteSheet_normal; }
+			if (nivel == 0 || nivel == 3) { variable = spriteSheet_pink; }
+			else if (nivel == 1 || nivel == 6) { variable = spriteSheet_1; }
+			else if (nivel == 2 || nivel == 5) { variable = spriteSheet_2;}
+			else {variable = spriteSheet_normal; }
 
 			Sprite* sprite = &sprites[i];
 		if (i < 6) {
@@ -899,6 +899,14 @@ int main(int argc, char* argv[]) {
 	if (!spriteSheet_normal)
 		svcBreak(USERBREAK_PANIC);
 
+		spriteSheet_1 = C2D_SpriteSheetLoad("romfs:/gfx/sprites_1.t3x");
+	if (!spriteSheet_1)
+		svcBreak(USERBREAK_PANIC);
+
+	spriteSheet_2 = C2D_SpriteSheetLoad("romfs:/gfx/sprites_2.t3x");
+	if (!spriteSheet_2)
+		svcBreak(USERBREAK_PANIC);
+
 	//Katamari animation spritesheets
 	katamariSheetD = C2D_SpriteSheetLoad("romfs:/gfx/katamari_d.t3x");
 	if (!katamariSheetD)
@@ -1031,6 +1039,8 @@ int main(int argc, char* argv[]) {
 	C2D_SpriteSheetFree(backgroundSheet_menu); 
 	C2D_SpriteSheetFree(spriteSheet_buttons);
 	C2D_SpriteSheetFree(spriteSheet_creditos);
+	C2D_SpriteSheetFree(spriteSheet_1);
+	C2D_SpriteSheetFree(spriteSheet_2);
 
 	// Deinit libs
 	C2D_Fini();
