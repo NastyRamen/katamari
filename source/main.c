@@ -592,27 +592,27 @@ void goUp()
 	}
 	if (frameCounter == 0)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 0);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 5);
 	}
 	if (frameCounter == ANIMATION_SPACER)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 1);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 4);
 	}
 	if (frameCounter == ANIMATION_SPACER * 2)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 2);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 3);
 	}
 	if (frameCounter == ANIMATION_SPACER * 3)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 3);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 2);
 	}
 	if (frameCounter == ANIMATION_SPACER * 4)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 4);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 1);
 	}
 	if (frameCounter == ANIMATION_SPACER * 4)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 5);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetU, 0);
 		frameCounter = 0;
 	}
 }
@@ -636,27 +636,27 @@ void goDown()
 	}
 	if (frameCounter == 0)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 0);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 5);
 	}
 	if (frameCounter == ANIMATION_SPACER)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 1);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 4);
 	}
 	if (frameCounter == ANIMATION_SPACER * 2)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 2);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 3);
 	}
 	if (frameCounter == ANIMATION_SPACER * 3)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 3);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 2);
 	}
 	if (frameCounter == ANIMATION_SPACER * 4)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 4);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 1);
 	}
 	if (frameCounter == ANIMATION_SPACER * 4)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 5);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 0);
 		frameCounter = 0;
 	}
 }
@@ -680,27 +680,27 @@ void goLeft()
 	}
 	if (frameCounter == 0)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 0);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 5);
 	}
 	if (frameCounter == ANIMATION_SPACER)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 1);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 4);
 	}
 	if (frameCounter == ANIMATION_SPACER * 2)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 2);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 3);
 	}
 	if (frameCounter == ANIMATION_SPACER * 3)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 3);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 2);
 	}
 	if (frameCounter == ANIMATION_SPACER * 4)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 4);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 1);
 	}
 	if (frameCounter == ANIMATION_SPACER * 4)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 5);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetL, 0);
 		frameCounter = 0;
 	}
 }
@@ -724,27 +724,27 @@ void goRight()
 	}
 	if (frameCounter == 0)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 0);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 5);
 	}
 	if (frameCounter == ANIMATION_SPACER)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 1);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 4);
 	}
 	if (frameCounter == ANIMATION_SPACER * 2)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 2);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 3);
 	}
 	if (frameCounter == ANIMATION_SPACER * 3)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 3);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 2);
 	}
 	if (frameCounter == ANIMATION_SPACER * 4)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 4);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 1);
 	}
 	if (frameCounter == ANIMATION_SPACER * 4)
 	{
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 5);
+		C2D_SpriteFromSheet(&katamari->spr, katamariSheetR, 0);
 		frameCounter = 0;
 	}
 }
