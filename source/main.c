@@ -22,7 +22,7 @@ Curso 2020-2021
 #define SCREEN_HEIGHT 240
 #define CHARACTER_SPEED 2
 #define ANIMATION_SPACER 5
-#define TIMER_TIME 50000
+#define TIMER_TIME 6000
 #define SCREEN_MAX_WIDTH_SPRITES  400
 #define SCREEN_MAX_HEIGHT_SPRITES 240
 
@@ -412,51 +412,52 @@ static void initSprites() {
 				//ICONOS
 				if (i < 7) {
 					if (i == 4) {
+						//ANTONI
 						C2D_SpriteFromSheet(&sprite->spr, spriteSheet_creditos, 0);
 						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
-						C2D_SpriteSetPos(&sprite->spr, 100.0f, 175.0f);
-						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
-						// Set sprites above background
-						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
-
-						sprite->dx = 100.0f;
-						sprite->dy = 175.0f;
-
-						sprites[i].visible = true;
-						sprites[i].size = 1;
-						//START
-					}
-					if (i == 5) {
-						//MENU
-						C2D_SpriteFromSheet(&sprite->spr, spriteSheet_creditos, 1);
-						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
-						C2D_SpriteSetPos(&sprite->spr, 200.0f, 140.0f);
+						C2D_SpriteSetPos(&sprite->spr, 200.0f, 120.0f);
 						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
 						// Set sprites above background
 						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
 
 						sprite->dx = 200.0f;
-						sprite->dy = 140.0f;
+						sprite->dy = 120.0f;
 
 						sprites[i].visible = true;
 						sprites[i].size = 1;
-						//MENU
+						//ANTONI
 					}
-					if (i == 6) {
-						//EXIT
-						C2D_SpriteFromSheet(&sprite->spr, spriteSheet_creditos, 2);
+					if (i == 5) {
+						//CRIS
+						C2D_SpriteFromSheet(&sprite->spr, spriteSheet_creditos, 1);
 						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
-						C2D_SpriteSetPos(&sprite->spr, 300.0f, 175.0f);
+						C2D_SpriteSetPos(&sprite->spr, 310.0f, 120.0f);
 						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
 						// Set sprites above background
 						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
 
-						sprite->dx = 300.0f;
-						sprite->dy = 175.0f;
+						sprite->dx = 310.0f;
+						sprite->dy = 120.0f;
 
 						sprites[i].visible = true;
 						sprites[i].size = 1;
-						//EXIT
+						//CRIS
+					}
+					if (i == 6) {
+						//NIEVES
+						C2D_SpriteFromSheet(&sprite->spr, spriteSheet_creditos, 2);
+						C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
+						C2D_SpriteSetPos(&sprite->spr, 70.0f, 120.0f);
+						//C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
+						// Set sprites above background
+						C2D_SpriteSetDepth(&sprite->spr, 0.3f);
+
+						sprite->dx = 70.0f;
+						sprite->dy = 120.0f;
+
+						sprites[i].visible = true;
+						sprites[i].size = 1;
+						//NIEVES
 					}
 				}
 			}
@@ -523,15 +524,31 @@ static void initKatamari(){
 //---------------------------------------------------------------------------------
 	
 		Katamari *katamari = &katamaris[0];
-		C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 0);
-		C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
-		C2D_SpriteSetPos(&katamari->spr, 200.0f, 110.0f);
+		
+		if(menus == 4)
+		{	
+			C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 0);
+			C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
+			C2D_SpriteSetPos(&katamari->spr, 200.0f, 70.0f);
+			// Set sprite above background
+			C2D_SpriteSetDepth(&katamari->spr, 0.3f);
+			katamari->dx = 200.0f;
+			katamari->dy = 70.0f;
+			katamari->size = katamari->size + 1;
+		}
+		else
+		{
+			C2D_SpriteFromSheet(&katamari->spr, katamariSheetD, 0);
+			C2D_SpriteSetCenter(&katamari->spr, 0.5f, 0.5f);
+			C2D_SpriteSetPos(&katamari->spr, 200.0f, 110.0f);
+			// Set sprite above background
+			C2D_SpriteSetDepth(&katamari->spr, 0.3f);
+			katamari->dx = 200.0f;
+			katamari->dy = 110.0f;
+			katamari->size = katamari->size + 1;
+		}
 
-		// Set sprite above background
-		C2D_SpriteSetDepth(&katamari->spr, 0.3f);
-		katamari->dx = 200.0f;
-		katamari->dy = 110.0f;
-		katamari->size = katamari->size + 1;
+		
 }
 
 //---------------------------------------------------------------------------------
