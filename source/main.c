@@ -490,7 +490,7 @@ static void initSprites() {
 			sprites[i].size = i / 2;
 
 			// Check for collision with the screen boundaries
-			/*
+			
 			if (sprite->spr.params.pos.y < sprite->spr.params.pos.h / 2.0f && sprite->dy < (sprite->spr.params.pos.h))
 				sprite->dy = sprite->dy + 30;
 			if (sprite->spr.params.pos.y > (SCREEN_MAX_HEIGHT_SPRITES - (sprite->spr.params.pos.h / 2.0f)) && sprite->dy > 0.0f)
@@ -499,15 +499,6 @@ static void initSprites() {
 				sprite->dx = sprite->dx - 30;
 			if (sprite->spr.params.pos.x < sprite->spr.params.pos.w / 2.0f && sprite->dx < (sprite->spr.params.pos.w))
 				sprite->dx = sprite->dx - 30;
-				*/
-
-			if ((sprite->spr.params.pos.x < sprite->spr.params.pos.w / 2.0f && sprite->dx < 0.0f) ||
-				(sprite->spr.params.pos.x > (SCREEN_WIDTH - (sprite->spr.params.pos.w / 2.0f)) && sprite->dx > 0.0f))
-				sprite->dx = -sprite->dx;
-
-			if ((sprite->spr.params.pos.y < sprite->spr.params.pos.h / 2.0f && sprite->dy < 0.0f) ||
-				(sprite->spr.params.pos.y > (SCREEN_HEIGHT - (sprite->spr.params.pos.h / 2.0f)) && sprite->dy > 0.0f))
-				sprite->dy = -sprite->dy;
 
 			//Set Sprite Scale
 			if (sprites[i].size == 0) { C2D_SpriteSetScale(&sprites[i].spr, 0.5f, 0.5f); }
